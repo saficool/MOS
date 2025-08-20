@@ -1,0 +1,8 @@
+<div class="resource-column">
+  <div class="d-flex align-items-center px-2 border-bottom" style="height: 30.5px;">Resources</div>
+  @for (resource of resources; let i = $index; track $index) {
+  <div class="resource-row">
+    <span class="resource-name">{{resource.name}}</span>
+  </div>
+  }
+</div>

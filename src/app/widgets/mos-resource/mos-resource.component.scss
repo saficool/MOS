@@ -1,0 +1,15 @@
+.resource-column {
+  width: 250px;
+  flex-shrink: 0;
+}
+
+.resource-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 48px;
+  padding: 0 8px;
+  border-bottom: 1px solid #d2d4d8;
+  font-size: 14px;
+  font-weight: 500;
+}

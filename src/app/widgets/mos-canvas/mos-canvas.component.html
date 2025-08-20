@@ -1,0 +1,54 @@
+<div class="gantt-scroll" #scrollHost>
+  <svg [attr.width]="totalWidth" [attr.height]="totalHeight">
+
+    <!-- Show horizontal line for each row -->
+    @for (row of rowLayout; track $index; let r = $index) {
+    <ng-container>
+      <line x1="0" [attr.y1]="row.y" [attr.x2]="timeWidth" [attr.y2]="row.y" stroke="#d2d4d8" stroke-width="0.9" />
+      <line x1="0" [attr.y1]="row.y + rowHeight" [attr.x2]="timeWidth" [attr.y2]="row.y + rowHeight" stroke="#d2d4d8"
+        stroke-width="0.9" />
+    </ng-container>
+    }
+
+    <!-- Show day wise vertical line -->
+    @for (g of gridLineDays; track $index) {
+    <ng-container>
+      <line class="days-grid-line" [attr.x1]="g.x" y1="0" [attr.x2]="g.x" [attr.y2]="totalHeight" />
+      <text [attr.x]="g.x + 4" y="16" font-size="14" fill="#000">{{ g.label }}</text>
+    </ng-container>
+    }
+
+    <!-- Show hourly vertical line -->
+    @for (h of gridLineHours; track $index) {
+    <ng-container>
+      <line class="hours-grid-line" [attr.x1]="h.x" y1="0" [attr.x2]="h.x" [attr.y2]="totalHeight" />
+      @if (pxPerHour >= 8) { <text [attr.x]="h.x + 2" y="28" font-size="10" fill="#000">{{ h.label }}</text> }
+    </ng-container>
+    }
+
+    @if (todayX) {
+    <line class="today-line" [attr.x1]="todayX" y1="0" [attr.x2]="todayX" [attr.y2]="totalHeight" />
+    }
+
+    @for (t of taskLayout; track $index) {
+    <ng-container>
+      <rect class="batch-rect" [attr.x]="t.x" [attr.y]="t.y + 6" [attr.width]="t.w" [attr.height]="rowHeight - 12"
+        [attr.fill]="t.backgroundColor || '#93c5fd'"></rect>
+      <text class="task-label" [attr.fill]="t.textColor" [attr.x]="t.x + 10" [attr.y]="t.y + rowHeight/2 + 4">{{
+        t.label }}</text>
+    </ng-container>
+    }
+
+    @for (c of connectors; track $index) {
+    <polyline class="connector" [attr.points]="c.points" fill="none" stroke="#6b7280" stroke-width="2"
+      marker-end="url(#arrowhead)" />
+    }
+    <defs>
+      <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="8" refY="3.5" orient="auto">
+        <polygon points="0 0, 10 3.5, 0 7" fill="#6b7280"></polygon>
+      </marker>
+    </defs>
+
+  </svg>
+
+</div>
