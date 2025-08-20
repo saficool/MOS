@@ -1,19 +1,42 @@
 import { Injectable } from '@angular/core';
 import { Resource } from '../interfaces/resource.interface';
 import { Batch } from '../interfaces/batch.interface';
+import { Task } from '../interfaces/task.interface';
 
 @Injectable({
   providedIn: 'root'
 })
 export class MosService {
+  deleteTask(task: Task, resources: Resource[]): Resource[] {
+    // Find the resource that contains the task
+    const resource = resources.find(r => r.tasks.some(t => t.taskId === task.taskId));
+    if (resource) {
+      // Remove the task from the resource's tasks
+      resource.tasks = resource.tasks.filter(t => t.taskId !== task.taskId);
+    }
+    return resources; // Return the updated resources
+  }
 
   getMinMaxDates(resources: Resource[]): { minDate: Date, maxDate: Date } {
-    const dates = resources.flatMap(m => m.tasks.flatMap(b => [b.start, b.end])).map(d => new Date(d));
-    const result = {
-      minDate: new Date(Math.min(...dates.map(d => d.getTime()))),
-      maxDate: new Date(Math.max(...dates.map(d => d.getTime())))
-    };
-    return result;
+    // const dates = resources.flatMap(m => m.tasks.flatMap(b => [b.start, b.end])).map(d => new Date(d));
+    // const result = {
+    //   minDate: new Date(Math.min(...dates.map(d => d.getTime()))),
+    //   maxDate: new Date(Math.max(...dates.map(d => d.getTime())))
+    // };
+    // return result;
+
+    const dates = resources
+      .flatMap(r => r.tasks.flatMap(t => [t.start, t.end]))
+      .map(d => new Date(d));
+
+    const minDate = new Date(Math.min(...dates.map(d => d.getTime())));
+    const maxDate = new Date(Math.max(...dates.map(d => d.getTime())));
+
+    // Normalize
+    minDate.setHours(0, 0, 0, 0);                  // start of day
+    maxDate.setHours(23, 59, 59, 999);             // end of day
+
+    return { minDate, maxDate };
   }
 
   dateToX(date: Date, start: Date, pxPerHour: number): number {

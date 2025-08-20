@@ -35,7 +35,7 @@ export class MosComponent {
           taskId: 'A2', batchId: '2', label: 'Task A2',
           start: '2025-08-18T12:30:00',
           end: '2025-08-19T01:30:00', // 27h
-          color: '#5d8ebbff', successors: ['B2']
+          color: '#5d8ebbff', successors: ['B2', 'A3']
         },
         {
           taskId: 'A3', batchId: '3', label: 'Task A3',
@@ -51,7 +51,7 @@ export class MosComponent {
       tasks: [
         {
           taskId: 'B1', batchId: '1', label: 'Task B1',
-          start: '2025-08-18T13:00:00',  // starts when A1 ends
+          start: '2025-08-18T06:00:00',  // starts when A1 ends
           end: '2025-08-19T04:00:00',  // 16h
           color: '#ff0000'
         },

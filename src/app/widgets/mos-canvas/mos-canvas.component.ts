@@ -1,8 +1,9 @@
-import { Component, Input } from '@angular/core';
+import { Component, effect, Input } from '@angular/core';
 import { Resource } from '../../interfaces/resource.interface';
 import { Batch } from '../../interfaces/batch.interface';
 import { MosService } from '../../services/mos.service';
-import { TaskId } from '../../interfaces/task.interface';
+import { Task, TaskId } from '../../interfaces/task.interface';
+import { ZoomService } from '../../services/zoom.service';
 
 @Component({
   selector: 'app-mos-canvas',
@@ -33,12 +34,24 @@ export class MosCanvasComponent {
   private startDate: Date = new Date('2023-01-01T00:00:00Z');
   private endDate: Date = new Date('2023-01-02T00:00:00Z');
 
-  taskLayout: Array<{ taskId: string; batchId: string, label: string; x: number; y: number; w: number; start: Date; end: Date; backgroundColor?: string; textColor?: string; }> = [];
+  taskLayout: Array<{ resourceId: string; taskId: string; batchId: string, label: string; x: number; y: number; w: number; start: Date; end: Date; backgroundColor?: string; textColor?: string; }> = [];
   connectors: Array<{ from: string; to: string; points: string; }> = [];
 
-  constructor(private mosService: MosService) { }
+  constructor(
+    private mosService: MosService,
+    private zoomService: ZoomService
+  ) {
+    effect(() => {
+      this.pxPerHour = this.zoomService.pxPerHour();
+      this.recompute();
+    });
+  }
 
   ngOnChanges() {
+    this.recompute();
+  }
+
+  private recompute() {
     this.computeStartEndDates();
     this.computeCanvasLayout()
     this.computeEventLayout()
@@ -94,7 +107,7 @@ export class MosCanvasComponent {
 
   private computeEventLayout() {
     // const batchById = new Map<TaskId, { x: number; y: number; w: number; start: Date; end: Date; label: string; id: string; color?: string }>();
-    const batchById = new Map<TaskId, { taskId: string; batchId: string; label: string; x: number; y: number; w: number; start: Date; end: Date; backgroundcolor?: string; textColor?: string; }>();
+    const batchById = new Map<TaskId, { resourceId: string; taskId: string; batchId: string; label: string; x: number; y: number; w: number; start: Date; end: Date; backgroundcolor?: string; textColor?: string; }>();
 
     this.taskLayout = [];
     for (let r = 0; r < this.rowLayout.length; r++) {
@@ -106,7 +119,7 @@ export class MosCanvasComponent {
         const w = Math.max(4, this.mosService.dateToX(e, this.startDate, this.pxPerHour) - this.mosService.dateToX(s, this.startDate, this.pxPerHour));
         const y = row.y;
         const backgroundcolor = task.color || this.mosService.getColorForBatch(task.batchId!, this.batches);
-        const item = { taskId: task.taskId, batchId: task.batchId!, label: task.label, x, y, w, start: s, end: e, backgroundColor: backgroundcolor, textColor: this.mosService.getContrastColor(backgroundcolor) };
+        const item = { resourceId: row.resource.resourceId, taskId: task.taskId, batchId: task.batchId!, label: task.label, x, y, w, start: s, end: e, backgroundColor: backgroundcolor, textColor: this.mosService.getContrastColor(backgroundcolor) };
         this.taskLayout.push(item);
         batchById.set(task.taskId, item);
       }
@@ -128,7 +141,7 @@ export class MosCanvasComponent {
   }
 
   private makeConnectorPoints(from: { x: number; y: number; w: number }, to: { x: number; y: number }) {
-    const padding = 4; // space between task and arrow
+    const padding = 0; // space between task and arrow
     const x1 = from.x + from.w + padding; // start a bit outside the task
     const y1 = from.y + this.rowHeight / 2;
     const x2 = to.x - padding; // end a bit before the next task
@@ -142,13 +155,36 @@ export class MosCanvasComponent {
       points.push(`${x2},${y2}`);
     } else {
       // Different row → elbow
-      const midX = (x1 + x2) / 2;
-      points.push(`${midX},${y1}`);
-      points.push(`${midX},${y2}`);
+      // const midX = (x1 + x2) / 2;
+      // points.push(`${midX},${y1}`);
+      // points.push(`${midX},${y2}`);
+      // points.push(`${x2},${y2}`);
+
+      points.push(`${x1 + 8},${y1}`);
+      points.push(`${x1 + 8},${y1 + (y2 - y1) / 2}`);
+      points.push(`${x2 - 12},${y1 + (y2 - y1) / 2}`);
+      points.push(`${x2 - 12},${y2}`);
       points.push(`${x2},${y2}`);
+
     }
 
     return points.join(" ");
+  }
+
+  onEditTask(task: Task) {
+    console.log("Edit task", task);
+  }
+
+  onDeleteTask(task: Task) {
+    let confirmText = `Are you sure you want to delete the task "${task.label}"?`;
+    if (confirm(confirmText) === false) {
+      return;
+    }
+    else {
+      console.log("Delete task", task);
+      this.resources = [...this.mosService.deleteTask(task, this.resources)];
+      this.recompute();
+    }
   }
 
 }

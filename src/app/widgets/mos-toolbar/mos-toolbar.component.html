@@ -2,5 +2,14 @@
   style="height: 48px;">
   <div class="fs-5 fw-semibold font-monospace">MOS</div>
   <div class="flex-grow-1"></div>
-  <button class="btn btn-sm btn-primary">Hello</button>
+  <button class="btn btn-sm btn-primary" (click)="zoomIn()" title="Zoom In">
+    <i class="bi bi-zoom-in"></i>
+  </button>
+  <button class="btn btn-sm btn-primary" (click)="zoomOut()" title="Zoom Out">
+    <i class="bi bi-zoom-out"></i>
+  </button>
+  <button class="btn btn-sm btn-primary" (click)="zoomReset()" title="Zoom Out">
+    <i class="bi bi-x-diamond"></i>
+  </button>
+  <button class="btn btn-sm btn-primary" (click)="addTask()"><i class="bi bi-plus-lg me-2"></i>New Task</button>
 </div>
