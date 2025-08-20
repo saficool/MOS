@@ -14,7 +14,4 @@ export class TaskManagerComponent {
 
   constructor(private mosService: MosService) { }
 
-
-
-
 }

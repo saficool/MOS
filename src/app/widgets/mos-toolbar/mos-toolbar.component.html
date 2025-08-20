@@ -11,5 +11,24 @@
   <button class="btn btn-sm btn-primary" (click)="zoomReset()" title="Zoom Out">
     <i class="bi bi-x-diamond"></i>
   </button>
-  <button class="btn btn-sm btn-primary" (click)="addTask()"><i class="bi bi-plus-lg me-2"></i>New Task</button>
+
+  <button class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal"><i
+      class="bi bi-plus-lg me-2"></i>New Task</button>
+
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false"
+  aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+    <div class="modal-content">
+      <div class="modal-header p-2">
+        <h1 class="modal-title fs-5" id="exampleModalLabel">New Task</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body p-2">
+        <app-task-manager></app-task-manager>
+      </div>
+    </div>
+  </div>
 </div>

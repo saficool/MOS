@@ -1,9 +1,10 @@
 import { Component } from '@angular/core';
 import { ZoomService } from '../../services/zoom.service';
+import { TaskManagerComponent } from '../task-manager/task-manager.component';
 
 @Component({
   selector: 'app-mos-toolbar',
-  imports: [],
+  imports: [TaskManagerComponent],
   templateUrl: './mos-toolbar.component.html',
   styleUrl: './mos-toolbar.component.scss'
 })
