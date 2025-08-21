@@ -2,6 +2,9 @@
   <app-mos-toolbar></app-mos-toolbar>
   <div class="d-flex flex-grow-1 overflow-auto mt-5">
     <app-mos-resource [batches]="batches" [resources]="resources"></app-mos-resource>
-    <app-mos-canvas [batches]="batches" [resources]="resources"></app-mos-canvas>
+    <div class="overflow-auto">
+      <app-mos-canvas [batches]="batches" [resources]="resources"></app-mos-canvas>
+    </div>
+
   </div>
 </div>
