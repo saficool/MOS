@@ -4,39 +4,64 @@
     <div class="col-sm-12">
       <div class="input-group input-group-sm">
         <span class="input-group-text" id="task-name">Batch</span>
-        <select class="form-select shadow-none" aria-label="Default select example" formControlName="batchId"
-          (change)="onSelectBatch()">
+        <select class="form-select shadow-none"
+          [ngClass]="{'is-invalid': taskManagerForm.get('batchId')?.touched && taskManagerForm.get('batchId')?.invalid}"
+          aria-label="Default select example" formControlName="batchId" (change)="onSelectBatch()">
           <option selected>Select a batch...</option>
           @for (batch of batches; track $index) {
           <option [value]="batch.batchId">{{batch.label}}</option>
           }
         </select>
+
+        <!-- @if (getFieldError('batchId')) {
+        <div class="error-message"> {{ getFieldError('batchId') }} </div>
+        } -->
+
       </div>
     </div>
 
     <div class="col-sm-12">
       <div class="input-group input-group-sm">
         <span class="input-group-text" id="task-name">Task Name</span>
-        <input type="text" class="form-control form-control-sm shadow-none" aria-label="task-name"
-          formControlName="label" aria-describedby="task-name">
+        <input type="text"
+          [ngClass]="{'is-invalid': taskManagerForm.get('label')?.touched && taskManagerForm.get('label')?.invalid}"
+          class="form-control form-control-sm shadow-none" aria-label="task-name" formControlName="label"
+          aria-describedby="task-name">
+
+        <!-- @if (getFieldError('label')) {
+        <div class="error-message"> {{ getFieldError('label') }} </div>
+        } -->
+
       </div>
     </div>
 
     <div class="col-sm-6">
       <div class="input-group input-group-sm">
         <span class="input-group-text" id="task-start">Start</span>
-        <input type="datetime-local" class="form-control shadow-none" aria-label="task-start"
-          aria-describedby="task-start" formControlName="start">
+        <input
+          [ngClass]="{'is-invalid': taskManagerForm.get('start')?.touched && taskManagerForm.get('start')?.invalid}"
+          type="datetime-local" class="form-control shadow-none" aria-label="task-start" aria-describedby="task-start"
+          formControlName="start">
+
+        <!-- @if (getFieldError('start')) {
+        <div class="error-message"> {{ getFieldError('start') }} </div>
+        } -->
       </div>
     </div>
+
 
     <div class="col-sm-6">
       <div class="input-group input-group-sm">
         <span class="input-group-text" id="task-end">End</span>
-        <input type="datetime-local" class="form-control shadow-none" aria-label="task-end" aria-describedby="task-end"
-          formControlName="end">
+        <input type="datetime-local"
+          [ngClass]="{'is-invalid': taskManagerForm.get('end')?.touched && taskManagerForm.get('end')?.invalid}"
+          class="form-control shadow-none" aria-label="task-end" aria-describedby="task-end" formControlName="end">
+        <!-- @if (getFieldError('end')) {
+        <div class="error-message"> {{ getFieldError('end') }} </div>
+        } -->
       </div>
     </div>
+
 
     <div class="col-sm-12">Successor</div>
 
@@ -68,6 +93,6 @@
   </div>
 
   <div class="d-flex mt-2">
-    <button class="btn btn-sm btn-primary" (click)="onSubmit()">Save</button>
+    <button class="btn btn-sm btn-primary" (click)="onSubmit()" [disabled]="!taskManagerForm.valid">Save</button>
   </div>
 </form>
