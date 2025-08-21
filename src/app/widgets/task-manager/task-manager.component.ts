@@ -5,6 +5,7 @@ import { Resource } from '../../interfaces/resource.interface';
 import { TaskManageMode } from '../../enums/task-manage-mode.enum';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Batch } from '../../interfaces/batch.interface';
+import { ResourceService } from '../../services/resource.service';
 
 const formatDateToCustom = (dateStr: string, fixedTime: string = "04:00:00"): string => {
   const date = new Date(dateStr);
@@ -45,27 +46,13 @@ export class TaskManagerComponent {
     successors: new FormControl('') // Array of successor task IDs
   });
 
-  constructor(private mosService: MosService) { }
+  constructor(
+    private mosService: MosService,
+    private resourceService: ResourceService
+  ) { }
 
   ngOnChanges(simpleChanges: SimpleChanges) {
-
     this.initSetupTaskForm()
-    if (simpleChanges['selectedResource'] && this.selectedResource) {
-      // Handle changes to selectedResource
-      console.log('Selected resource changed:', this.selectedResource);
-    }
-    if (simpleChanges['manageMode']) {
-      // Handle changes to manageMode
-      console.log('Manage mode changed:', this.manageMode);
-    }
-    if (simpleChanges['resources']) {
-      // Handle changes to resources
-      console.log('Resources changed:', this.resources);
-    }
-    if (simpleChanges['selectedTask']) {
-      // Handle changes to selectedTask
-      console.log('Selected task changed:', this.selectedTask);
-    }
   }
 
   initSetupTaskForm() {
@@ -76,8 +63,8 @@ export class TaskManagerComponent {
         taskId: this.selectedTask.taskId,
         batchId: this.selectedTask.batchId,
         label: this.selectedTask.label,
-        start: new Date(this.selectedTask.start).toISOString().slice(0, 16), // Convert to local datetime string
-        end: new Date(this.selectedTask.end).toISOString().slice(0, 16), // Convert to local datetime string
+        start: this.selectedTask.start, // Convert to local datetime string
+        end: this.selectedTask.end, // Convert to local datetime string
         color: this.selectedTask.color,
         successors: this.selectedTask.successors || []
       });
@@ -97,7 +84,6 @@ export class TaskManagerComponent {
   }
 
   onSelectBatch() {
-    console.log('Batch selected:', this.taskManagerForm.get('batchId')?.value);
     // set color from bathc
     const selectedBatchId = this.taskManagerForm.get('batchId')?.value;
     const selectedBatch = this.batches.find(batch => batch.batchId === selectedBatchId);
@@ -118,21 +104,18 @@ export class TaskManagerComponent {
 
   onSubmit() {
 
-    console.log(this.selectedResource);
-    console.log(this.resources);
-
-    console.log('Form submitted with value:', this.taskManagerForm.value);
     // return;
     if (this.taskManagerForm.valid) {
       const taskData = this.taskManagerForm.value;
+
+      console.log('Task Data:', taskData);
+
       const newTask: Task = {
         taskId: taskData.taskId || this.mosService.generateId(),
         batchId: taskData.batchId,
         label: taskData.label,
-        // start: new Date(taskData.start).toISOString(),
-        // end: new Date(taskData.end).toISOString(),
-        start: formatDateToCustom(taskData.start),
-        end: formatDateToCustom(taskData.end),
+        start: taskData.start,
+        end: taskData.end,
         color: taskData.color,
         successors: taskData.successors || []
       };
@@ -152,5 +135,8 @@ export class TaskManagerComponent {
       // Reset form after submission
       this.taskManagerForm.reset();
     }
+
+    this.resourceService.resources.set([]);
+    this.resourceService.resources.set(this.resources);
   }
 }

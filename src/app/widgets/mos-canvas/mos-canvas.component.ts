@@ -172,7 +172,6 @@ export class MosCanvasComponent {
   }
 
   onEditTask(task: Task) {
-    console.log("Edit task", task);
   }
 
   onDeleteTask(task: Task) {
@@ -181,7 +180,6 @@ export class MosCanvasComponent {
       return;
     }
     else {
-      console.log("Delete task", task);
       this.resources = [...this.mosService.deleteTask(task, this.resources)];
       this.recompute();
     }

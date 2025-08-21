@@ -1,7 +1,8 @@
-import { Component } from '@angular/core';
+import { Component, effect } from '@angular/core';
 import { MosContainerComponent } from '../../widgets/mos-container/mos-container.component';
 import { Batch } from '../../interfaces/batch.interface';
 import { Resource } from '../../interfaces/resource.interface';
+import { ResourceService } from '../../services/resource.service';
 
 @Component({
   selector: 'app-mos',
@@ -10,6 +11,8 @@ import { Resource } from '../../interfaces/resource.interface';
   styleUrl: './mos.component.scss'
 })
 export class MosComponent {
+
+
 
   batches: Batch[] = [
     { batchId: '1', label: 'Batch 1', color: '#ff0000' },
@@ -70,6 +73,15 @@ export class MosComponent {
       ]
     }
   ];
+
+  constructor(
+    private resourceService: ResourceService
+  ) {
+    this.resourceService.batches.set(this.batches);
+    this.resourceService.resources.set(this.resources);
+  }
+
+  ngOnInit() { }
 
 
 

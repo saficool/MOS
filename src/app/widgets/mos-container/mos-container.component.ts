@@ -1,9 +1,10 @@
-import { Component, Input, SimpleChange } from '@angular/core';
+import { Component, effect, Input, SimpleChange } from '@angular/core';
 import { MosToolbarComponent } from '../mos-toolbar/mos-toolbar.component';
 import { MosResourceComponent } from '../mos-resource/mos-resource.component';
 import { MosCanvasComponent } from '../mos-canvas/mos-canvas.component';
 import { Batch } from '../../interfaces/batch.interface';
 import { Resource } from '../../interfaces/resource.interface';
+import { ResourceService } from '../../services/resource.service';
 
 @Component({
   selector: 'app-mos-container',
@@ -12,21 +13,17 @@ import { Resource } from '../../interfaces/resource.interface';
   styleUrl: './mos-container.component.scss'
 })
 export class MosContainerComponent {
+  batches: Batch[] = [];
+  resources: Resource[] = [];
 
-  @Input() batches: Batch[] = [];
-  @Input() resources: Resource[] = [];
-
-  constructor() {
-    // Initialization logic can go here if needed
+  constructor(private resourceService: ResourceService) {
+    effect(() => {
+      this.batches = [...this.resourceService.batches()];
+      this.resources = [...this.resourceService.resources()];
+    });
   }
 
-  ngOnChanges(simpleChanges: SimpleChange) {
-    // Handle changes to inputs if necessary
-    // console.log('Batches or resources changed:', simpleChanges);
-
-
-    // console.log('Batches:', this.batches);
-    // console.log('Resources:', this.resources);
+  ngOnInit() {
   }
 
 }

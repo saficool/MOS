@@ -1,70 +1,87 @@
 import { Injectable, signal } from '@angular/core';
 import { Resource } from '../interfaces/resource.interface';
 import { Task } from '../interfaces/task.interface';
+import { Batch } from '../interfaces/batch.interface';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ResourceService {
-  // use signal to manage resources state
+
+  batches = signal<Batch[]>([]);
   resources = signal<Resource[]>([]);
   selectedResource = signal<Resource | null>(null);
   selectedTask = signal<Task | null>(null);
 
-  addResource(resource: Resource) {
-    this.resources.update(res => [...res, resource]);
-  }
+  // constructor() {
+  //   // Initialize with empty arrays
+  //   this.batches.set([]);
+  //   this.resources.set([]);
+  // }
 
-  removeResource(resourceId: string) {
-    this.resources.update(res => res.filter(r => r.resourceId !== resourceId));
-  }
+  // setBatches(batches: Batch[]) {
+  //   this.batches.set(batches);
+  // }
 
-  selectResource(resource: Resource | null) {
-    this.selectedResource.set(resource);
-  }
+  // setResources(resources: Resource[]) {
+  //   this.resources.set(resources);
+  // }
 
-  selectTask(task: Task | null) {
-    this.selectedTask.set(task);
-  }
 
-  updateResource(resource: Resource) {
-    this.resources.update(res => {
-      const index = res.findIndex(r => r.resourceId === resource.resourceId);
-      if (index !== -1) {
-        res[index] = resource;
-      }
-      return [...res];
-    });
-  }
+  // addResource(resource: Resource) {
+  //   this.resources.update(res => [...res, resource]);
+  // }
 
-  getResourceById(resourceId: string): Resource | undefined {
-    return this.resources().find(r => r.resourceId === resourceId);
-  }
+  // removeResource(resourceId: string) {
+  //   this.resources.update(res => res.filter(r => r.resourceId !== resourceId));
+  // }
 
-  getAllResources(): Resource[] {
-    return this.resources();
-  }
-  getSelectedResource(): Resource | null {
-    return this.selectedResource();
-  }
+  // selectResource(resource: Resource | null) {
+  //   this.selectedResource.set(resource);
+  // }
 
-  getSelectedTask(): Task | null {
-    return this.selectedTask();
-  }
-  clearSelectedResource() {
-    this.selectedResource.set(null);
-  }
-  clearSelectedTask() {
-    this.selectedTask.set(null);
-  }
-  clearResources() {
-    this.resources.set([]);
-  }
-  clearAll() {
-    this.clearResources();
-    this.clearSelectedResource();
-    this.clearSelectedTask();
-  }
+  // selectTask(task: Task | null) {
+  //   this.selectedTask.set(task);
+  // }
+
+  // updateResource(resource: Resource) {
+  //   this.resources.update(res => {
+  //     const index = res.findIndex(r => r.resourceId === resource.resourceId);
+  //     if (index !== -1) {
+  //       res[index] = resource;
+  //     }
+  //     return [...res];
+  //   });
+  // }
+
+  // getResourceById(resourceId: string): Resource | undefined {
+  //   return this.resources().find(r => r.resourceId === resourceId);
+  // }
+
+  // getAllResources(): Resource[] {
+  //   return this.resources();
+  // }
+  // getSelectedResource(): Resource | null {
+  //   return this.selectedResource();
+  // }
+
+  // getSelectedTask(): Task | null {
+  //   return this.selectedTask();
+  // }
+  // clearSelectedResource() {
+  //   this.selectedResource.set(null);
+  // }
+  // clearSelectedTask() {
+  //   this.selectedTask.set(null);
+  // }
+  // clearResources() {
+  //   this.resources.set([]);
+  // }
+  // clearAll() {
+  //   this.clearResources();
+  //   this.clearSelectedResource();
+  //   this.clearSelectedTask();
+  // }
 
 
 }
