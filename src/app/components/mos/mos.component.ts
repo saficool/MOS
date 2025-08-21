@@ -71,6 +71,36 @@ export class MosComponent {
           color: '#0000ff'
         }
       ]
+    },
+    {
+      resourceId: 'M3',
+      name: 'Machine C',
+      tasks: []
+    },
+    {
+      resourceId: 'M4',
+      name: 'Machine D',
+      tasks: []
+    },
+    {
+      resourceId: 'M5',
+      name: 'Machine E',
+      tasks: []
+    },
+    {
+      resourceId: 'M6',
+      name: 'Machine F',
+      tasks: []
+    },
+    {
+      resourceId: 'M7',
+      name: 'Machine G',
+      tasks: []
+    },
+    {
+      resourceId: 'M8',
+      name: 'Machine H',
+      tasks: []
     }
   ];
 
