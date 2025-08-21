@@ -1,21 +1,27 @@
-import { Component } from '@angular/core';
+import { Component, effect } from '@angular/core';
 import { ZoomService } from '../../services/zoom.service';
-import { TaskManagerComponent } from '../task-manager/task-manager.component';
+import { MosService } from '../../services/mos.service';
 
 @Component({
   selector: 'app-mos-toolbar',
-  imports: [TaskManagerComponent],
+  imports: [],
   templateUrl: './mos-toolbar.component.html',
   styleUrl: './mos-toolbar.component.scss'
 })
 export class MosToolbarComponent {
 
-  constructor(private zoom: ZoomService) { }
+  pxPerHour = 30; // Default value, will be updated by ZoomService
 
-  zoomIn() { this.zoom.zoomIn(); }
-  zoomOut() { this.zoom.zoomOut(); }
-  zoomReset() { this.zoom.reset(); }
+  constructor(
+    private zoomService: ZoomService,
+    private mosService: MosService
+  ) {
+    effect(() => { this.pxPerHour = this.zoomService.pxPerHour(); });
+  }
 
-  addTask() { }
+
+  zoomIn() { this.zoomService.zoomIn(); }
+  zoomOut() { this.zoomService.zoomOut(); }
+  zoomReset() { this.zoomService.reset(); }
 
 }

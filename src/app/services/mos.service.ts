@@ -7,6 +7,7 @@ import { Task } from '../interfaces/task.interface';
   providedIn: 'root'
 })
 export class MosService {
+
   deleteTask(task: Task, resources: Resource[]): Resource[] {
     // Find the resource that contains the task
     const resource = resources.find(r => r.tasks.some(t => t.taskId === task.taskId));
@@ -62,6 +63,10 @@ export class MosService {
     let brightness = (r * 299 + g * 587 + b * 114) / 1000;
 
     return brightness > 128 ? "black" : "white";
+  }
+
+  generateId(): string {
+    return Math.random().toString(36).substring(2, 9);
   }
 
 }

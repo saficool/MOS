@@ -1,27 +1,6 @@
-.days-grid-line {
-  stroke: #d6d6d6;
-  stroke-width: 1;
-}
-
-.hours-grid-line {
-  stroke: #d6d6d6;
-  stroke-width: 0.5;
-}
-
-.today-line {
-  stroke: #ef4444;
-  stroke-width: 1.5;
-  stroke-dasharray: 4 3;
-}
-
 .batch-rect {
   rx: 5;
   ry: 5;
   stroke: #11182722;
   stroke-width: 1;
-}
-
-.connector {
-  stroke-width: 1.5;
-  marker-end: url(#arrowhead);
 }
