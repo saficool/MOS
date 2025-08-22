@@ -1,4 +1,5 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Task } from '../../../interfaces/task.interface';
 
 export interface TaskLayoutItem {
   resourceId: string;
@@ -33,5 +34,16 @@ export class TaskComponent {
 
   onDeleteClick() {
     this.deleteTask.emit(this.task);
+  }
+
+  onClick(task: Task) {
+    console.log(task);
+
+    // this.rightClickTask.emit({
+    //   task: this.task,
+    //   x: event.clientX,
+    //   y: event.clientY,
+    //   event: event
+    // });
   }
 }

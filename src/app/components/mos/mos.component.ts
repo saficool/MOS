@@ -15,7 +15,7 @@ export class MosComponent {
 
 
   batches: Batch[] = [
-    { batchId: '1', label: 'Batch 1', color: '#ff0000' },
+    { batchId: '1', label: 'Batch 1', color: '#00aeffff' },
     { batchId: '2', label: 'Batch 2', color: '#5d8ebbff' },
     { batchId: '3', label: 'Batch 3', color: '#0000ff' },
     { batchId: '4', label: 'Batch 4', color: '#ffff00' },
@@ -32,7 +32,7 @@ export class MosComponent {
           taskId: 'A1', batchId: '1', label: 'Task A1',
           start: '2025-08-18T01:00:00',
           end: '2025-08-18T12:00:00', // 11h
-          color: '#ff0000', successors: ['B1']
+          color: '#00aeffff', successors: ['B1']
         },
         {
           taskId: 'A2', batchId: '2', label: 'Task A2',
@@ -56,7 +56,7 @@ export class MosComponent {
           taskId: 'B1', batchId: '1', label: 'Task B1',
           start: '2025-08-18T06:00:00',  // starts when A1 ends
           end: '2025-08-19T04:00:00',  // 16h
-          color: '#ff0000'
+          color: '#00aeffff'
         },
         {
           taskId: 'B2', batchId: '2', label: 'Task B2',

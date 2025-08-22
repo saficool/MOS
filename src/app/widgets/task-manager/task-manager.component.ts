@@ -1,5 +1,5 @@
-import { Component, Input, SimpleChanges } from '@angular/core';
-import { Task } from '../../interfaces/task.interface';
+import { Component, Input, resource, SimpleChanges } from '@angular/core';
+import { Task, TaskStatus } from '../../interfaces/task.interface';
 import { MosService } from '../../services/mos.service';
 import { Resource } from '../../interfaces/resource.interface';
 import { TaskManageMode } from '../../enums/task-manage-mode.enum';
@@ -29,12 +29,25 @@ export class TaskManagerComponent {
 
 
   taskManagerForm: FormGroup = new FormGroup({
+    resourceId: new FormControl('', [Validators.required]),
+
     taskId: new FormControl('', [Validators.required]),
     batchId: new FormControl('', [Validators.required]),
     label: new FormControl('', [Validators.required]), // Task label
+    description: new FormControl('', []), // Optional description
+
     start: new FormControl('', [Validators.required]), // Start date
     end: new FormControl('', [Validators.required]), // End date
-    color: new FormControl('#7a83daff', [Validators.required]), // Default color
+    duration: new FormControl('', [Validators.required]), // Duration in minutes, optional
+
+    status: new FormControl(TaskStatus.Planned, []), // Task status, default to 'pending'
+    progress: new FormControl(0, [Validators.min(0), Validators.max(100)]), // Progress in percentage e.g 0-100
+
+    backgroundColor: new FormControl('#fff', []), // Background color for the task, which will be come from batch color
+    textColor: new FormControl('#000', []), // Text color for the task label will be auto identified based on background color
+    progressColor: new FormControl('#000', []), // Color for progress bar
+
+    color: new FormControl('#000', [Validators.required]), // Default color
     successors: new FormControl('') // Array of successor task IDs
   })
 

@@ -1,9 +1,10 @@
 <svg>
   <rect class="batch-rect" [attr.x]="task.x" [attr.y]="task.y + 6" [attr.width]="task.w" [attr.height]="rowHeight - 12"
-    [attr.fill]="task.backgroundColor || '#93c5fd'" rx="5" ry="5">
+    [attr.fill]="task.backgroundColor || '#93c5fd'" rx="5" ry="5" (click)="onClick(task)">
   </rect>
 
-  <text class="task-label" [attr.fill]="task.textColor" [attr.x]="task.x + 10" [attr.y]="task.y + rowHeight/2 + 4">
+  <text class="task-label" [attr.fill]="task.textColor" [attr.x]="task.x + 10" [attr.y]="task.y + rowHeight/2 + 4"
+    (click)="onClick(task)">
     {{ task.label }}
   </text>
 
