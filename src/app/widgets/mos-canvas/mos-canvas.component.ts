@@ -4,6 +4,7 @@ import { Batch } from '../../interfaces/batch.interface';
 import { MosService } from '../../services/mos.service';
 import { Task, TaskId } from '../../interfaces/task.interface';
 import { ZoomService } from '../../services/zoom.service';
+import { ResourceService } from '../../services/resource.service';
 
 @Component({
   selector: 'app-mos-canvas',
@@ -21,6 +22,7 @@ export class MosCanvasComponent {
 
   gridLineDays: { x: number; label: string; }[] = [];
   gridLineHours: { x: number; label: string; }[] = [];
+  showGridLineHours: boolean = true;
 
   pxPerHour = 30;
   rowHeight = 48;
@@ -39,10 +41,12 @@ export class MosCanvasComponent {
 
   constructor(
     private mosService: MosService,
-    private zoomService: ZoomService
+    private zoomService: ZoomService,
+    private resourceService: ResourceService
   ) {
     effect(() => {
       this.pxPerHour = this.zoomService.pxPerHour();
+      this.showGridLineHours = this.resourceService.showGridLineHours();
       this.recompute();
     });
   }
@@ -101,18 +105,60 @@ export class MosCanvasComponent {
     for (let t = firstHour.getTime(); t <= this.endDate.getTime(); t += hourMs) {
       const d = new Date(t);
       const x = this.leftGutter + this.mosService.dateToX(d, this.startDate, this.pxPerHour);
-      this.gridLineHours.push({ x, label: d.getHours().toString().padStart(2, '0') + ":00" });
+      this.gridLineHours.push({ x, label: d.getHours().toString().padStart(2, '0') }); //+ ":00"
     }
   }
 
+  // private computeEventLayout() {
+  //   // const batchById = new Map<TaskId, { x: number; y: number; w: number; start: Date; end: Date; label: string; id: string; color?: string }>();
+  //   const batchById = new Map<TaskId, { resourceId: string; taskId: string; batchId: string; label: string; x: number; y: number; w: number; start: Date; end: Date; backgroundcolor?: string; textColor?: string; }>();
+
+  //   this.taskLayout = [];
+  //   for (let r = 0; r < this.rowLayout.length; r++) {
+  //     const row = this.rowLayout[r];
+  //     for (const task of (row.resource.tasks || [])) {
+  //       const s = new Date(task.start as any);
+  //       const e = new Date(task.end as any);
+  //       const x = this.leftGutter + this.mosService.dateToX(s, this.startDate, this.pxPerHour);
+  //       const w = Math.max(4, this.mosService.dateToX(e, this.startDate, this.pxPerHour) - this.mosService.dateToX(s, this.startDate, this.pxPerHour));
+  //       const y = row.y;
+  //       const backgroundcolor = task.color || this.mosService.getColorForBatch(task.batchId!, this.batches);
+  //       const item = { resourceId: row.resource.resourceId, taskId: task.taskId, batchId: task.batchId!, label: task.label, x, y, w, start: s, end: e, backgroundColor: backgroundcolor, textColor: this.mosService.getContrastColor(backgroundcolor) };
+  //       this.taskLayout.push(item);
+  //       batchById.set(task.taskId, item);
+  //     }
+  //   }
+
+  //   this.connectors = [];
+  //   for (const m of this.resources) {
+  //     for (const b of (m.tasks || [])) {
+  //       if (!b.successors) continue;
+  //       for (const toId of b.successors) {
+  //         const from = batchById.get(b.taskId);
+  //         const to = batchById.get(toId);
+  //         if (!from || !to) continue;
+  //         const points = this.makeConnectorPoints(from, to);
+  //         this.connectors.push({ from: b.taskId, to: toId, points });
+  //       }
+  //     }
+  //   }
+  // }
+
   private computeEventLayout() {
-    // const batchById = new Map<TaskId, { x: number; y: number; w: number; start: Date; end: Date; label: string; id: string; color?: string }>();
+    // Create a Set of existing batch IDs for efficient lookup
+    const existingBatchIds = new Set(this.batches.map(batch => batch.batchId));
+
     const batchById = new Map<TaskId, { resourceId: string; taskId: string; batchId: string; label: string; x: number; y: number; w: number; start: Date; end: Date; backgroundcolor?: string; textColor?: string; }>();
 
     this.taskLayout = [];
     for (let r = 0; r < this.rowLayout.length; r++) {
       const row = this.rowLayout[r];
       for (const task of (row.resource.tasks || [])) {
+        // Skip tasks whose batch doesn't exist in batches array
+        if (!task.batchId || !existingBatchIds.has(task.batchId)) {
+          continue;
+        }
+
         const s = new Date(task.start as any);
         const e = new Date(task.end as any);
         const x = this.leftGutter + this.mosService.dateToX(s, this.startDate, this.pxPerHour);
@@ -128,6 +174,11 @@ export class MosCanvasComponent {
     this.connectors = [];
     for (const m of this.resources) {
       for (const b of (m.tasks || [])) {
+        // Skip tasks whose batch doesn't exist in batches array
+        if (!b.batchId || !existingBatchIds.has(b.batchId)) {
+          continue;
+        }
+
         if (!b.successors) continue;
         for (const toId of b.successors) {
           const from = batchById.get(b.taskId);

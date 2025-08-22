@@ -6,6 +6,46 @@
   <div class="legend">px/hr: {{pxPerHour}}</div>
   <div class="flex-grow-1"></div>
 
+
+  <div class="dropdown">
+    <button class="btn btn-sm btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown"
+      aria-expanded="false">
+      Batches ({{selectedBatches.size}} selected)
+    </button>
+    <div class="dropdown-menu" style="width: max-content;">
+      <ul class="list-group list-group-flush">
+        <li class="list-group-item">
+          <input class="form-check-input me-1" type="checkbox" id="selectAllCheckbox" [checked]="isSelectAllChecked"
+            [class.indeterminate]="isIndeterminate" (change)="onSelectAllBatch($event)">
+          <label class="form-check-label" for="selectAllCheckbox">
+            Select all ({{clonedBatches.length}})
+          </label>
+        </li>
+        @for (batch of clonedBatches; let i = $index; track batch.batchId) {
+        <li class="list-group-item">
+          <input title="batch" class="form-check-input me-1" type="checkbox" [checked]="isBatchSelected(batch.batchId)"
+            [attr.id]="'checkbox_'+i" (change)="onSelectBatch($event, batch)">
+          <label class="form-check-label" [attr.for]="'checkbox_'+i">
+            {{batch.label}}
+          </label>
+        </li>
+        }
+      </ul>
+
+      <!-- Optional: Action buttons -->
+      <div class="dropdown-divider"></div>
+      <div class="px-3 py-2">
+        <button class="btn btn-sm btn-primary me-2" (click)="applyBatchFilter()"
+          [disabled]="selectedBatches.size === 0">
+          Apply Filter
+        </button>
+        <button class="btn btn-sm btn-outline-secondary" (click)="clearBatchSelection()">
+          Clear All
+        </button>
+      </div>
+    </div>
+  </div>
+
   <button class="btn btn-sm btn-primary" (click)="zoomIn()" title="Zoom In">
     <i class="bi bi-zoom-in"></i>
   </button>
@@ -14,6 +54,9 @@
   </button>
   <button class="btn btn-sm btn-primary" (click)="zoomReset()" title="Zoom Out">
     <i class="bi bi-x-diamond"></i>
+  </button>
+  <button class="btn btn-sm btn-primary" (click)="toggleGridLineHours()" title="Zoom Out">
+    Show/Hide Time Grid
   </button>
 
 </div>

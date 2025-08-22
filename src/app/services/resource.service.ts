@@ -12,6 +12,7 @@ export class ResourceService {
   resources = signal<Resource[]>([]);
   selectedResource = signal<Resource | null>(null);
   selectedTask = signal<Task | null>(null);
+  showGridLineHours = signal<boolean>(true);
 
   // constructor() {
   //   // Initialize with empty arrays

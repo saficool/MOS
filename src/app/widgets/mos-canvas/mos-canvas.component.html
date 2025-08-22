@@ -19,12 +19,15 @@
     }
 
     <!-- Show hourly vertical line -->
+    @if (showGridLineHours) {
     @for (h of gridLineHours; track $index) {
     <ng-container>
       <line [attr.x1]="h.x" y1="0" [attr.x2]="h.x" [attr.y2]="totalHeight" stroke="#d6d6d6" stroke-width="0.5" />
       @if (pxPerHour >= 8) { <text [attr.x]="h.x + 2" y="28" font-size="10" fill="#000">{{ h.label }}</text> }
     </ng-container>
     }
+    }
+
 
     @if (todayX) {
     <line [attr.x1]="todayX" y1="0" [attr.x2]="todayX" [attr.y2]="totalHeight" stroke="#ef4444" stroke-width="1.5"
