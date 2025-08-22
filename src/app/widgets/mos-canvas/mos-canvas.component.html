@@ -35,13 +35,12 @@
     }
 
     @for (t of taskLayout; track $index) {
-    <ng-container>
+    <!-- <ng-container>
       <rect class="batch-rect" [attr.x]="t.x" [attr.y]="t.y + 6" [attr.width]="t.w" [attr.height]="rowHeight - 12"
         [attr.fill]="t.backgroundColor || '#93c5fd'"></rect>
       <text class="task-label" [attr.fill]="t.textColor" [attr.x]="t.x + 10" [attr.y]="t.y + rowHeight/2 + 4">{{
         t.label }}</text>
 
-      <!-- Edit Icon -->
       <svg (click)="onEditTask(t)" [attr.x]="t.x + t.w - 38" [attr.y]="t.y + (rowHeight/2 - 6)" width="16" height="16"
         viewBox="0 0 18 18" [attr.fill]="t.textColor" style="cursor:pointer;">
         <path d="M12.146.146a.5.5 0 0 1 .708 0l3
@@ -50,8 +49,6 @@
         2L4 9.207V11h1.793L13 3.793 11.207
         2z" />
       </svg>
-
-      <!-- Delete Icon -->
       <svg (click)="onDeleteTask(t)" [attr.x]="t.x + t.w - 18" [attr.y]="t.y + (rowHeight/2 - 6)" width="16" height="16"
         viewBox="0 0 18 18" [attr.fill]="t.textColor" style="cursor:pointer;">
         <path d="M5.5 5.5a.5.5 0 0 1
@@ -71,7 +68,10 @@
         1 1v1h2.5a1 1 0 0
         1 1 1zM6 1v1h4V1H6z" />
       </svg>
-    </ng-container>
+    </ng-container> -->
+
+    <g app-task [task]="t" [rowHeight]="rowHeight" (editTask)="onEditTask($event)" (deleteTask)="onDeleteTask($event)">
+    </g>
     }
 
     @for (c of connectors; track $index) {

@@ -5,10 +5,11 @@ import { MosService } from '../../services/mos.service';
 import { Task, TaskId } from '../../interfaces/task.interface';
 import { ZoomService } from '../../services/zoom.service';
 import { ResourceService } from '../../services/resource.service';
+import { TaskComponent } from '../events/task/task.component';
 
 @Component({
   selector: 'app-mos-canvas',
-  imports: [],
+  imports: [TaskComponent],
   templateUrl: './mos-canvas.component.html',
   styleUrl: './mos-canvas.component.scss'
 })
