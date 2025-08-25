@@ -13,14 +13,16 @@ import { ResourceService } from '../../services/resource.service';
   styleUrl: './mos-container.component.scss'
 })
 export class MosContainerComponent {
-  batches: Batch[] = [];
-  resources: Resource[] = [];
+  // batches: Batch[] = [];
+  // resources: Resource[] = [];
 
-  constructor(private resourceService: ResourceService) {
-    effect(() => {
-      this.batches = [...this.resourceService.batches()];
-      this.resources = [...this.resourceService.resources()];
-    });
+  constructor(
+    // private resourceService: ResourceService
+  ) {
+    // effect(() => {
+    //   this.batches = [...this.resourceService.batches()];
+    //   this.resources = [...this.resourceService.resources()];
+    // });
   }
 
   ngOnInit() {

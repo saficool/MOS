@@ -1,6 +1,6 @@
 import { Component, Input, resource, SimpleChanges } from '@angular/core';
 import { Task, TaskStatus } from '../../interfaces/task.interface';
-import { MosService } from '../../services/mos.service';
+import { UtilityService } from '../../services/utility.service';
 import { Resource } from '../../interfaces/resource.interface';
 import { TaskManageMode } from '../../enums/task-manage-mode.enum';
 import { AbstractControl, FormControl, FormGroup, ReactiveFormsModule, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
@@ -52,7 +52,7 @@ export class TaskManagerComponent {
   })
 
   constructor(
-    private mosService: MosService,
+    private utilityService: UtilityService,
     private resourceService: ResourceService
   ) {
   }
@@ -184,7 +184,6 @@ export class TaskManagerComponent {
   }
 
   private updateValidators() {
-    console.log(this.selectedResource);
 
     const startControl = this.taskManagerForm.get('start');
     const endControl = this.taskManagerForm.get('end');
@@ -259,7 +258,7 @@ export class TaskManagerComponent {
     else if (this.manageMode === TaskManageMode.Create) {
       // if it is create mode, then set the form values
       this.taskManagerForm.patchValue({
-        taskId: this.mosService.generateId(),
+        taskId: this.utilityService.generateId(),
         batchId: '',
         label: '',
         start: '',
@@ -335,10 +334,8 @@ export class TaskManagerComponent {
     }
 
     const taskData = this.taskManagerForm.value;
-    console.log('Task Data:', taskData);
-
     const newTask: Task = {
-      taskId: taskData.taskId || this.mosService.generateId(),
+      taskId: taskData.taskId || this.utilityService.generateId(),
       batchId: taskData.batchId,
       label: taskData.label,
       start: taskData.start,

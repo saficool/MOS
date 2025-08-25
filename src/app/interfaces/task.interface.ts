@@ -6,7 +6,6 @@ export enum TaskStatus {
   Cancelled = 'cancelled',
   Failed = 'failed',
   Planned = 'planned',
-  OnHold = 'on-hold',
 }
 
 export interface Task {

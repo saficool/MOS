@@ -1,0 +1,21 @@
+import { BatchDto } from "./Batch.dto";
+
+export interface TaskDto {
+  taskId: string;
+  name: string;
+  description?: string;
+  startDate: Date;
+  endDate: Date;
+  duration: number;
+  progress: number;
+  backgroundColor?: string;
+  textColor?: string;
+  progressColor?: string;
+  batch: BatchDto;
+  successors: Successor[];
+  predecessors: Predecessor[];
+}
+
+
+export interface Successor { taskId?: string; }
+export interface Predecessor { taskId?: string; }

@@ -4,6 +4,9 @@ import { TaskManagerComponent } from '../task-manager/task-manager.component';
 import { Batch } from '../../interfaces/batch.interface';
 import { TaskManageMode } from '../../enums/task-manage-mode.enum';
 import { ResourceService } from '../../services/resource.service';
+import { MosService } from '../../services/mos.service';
+import { ResourceDto } from '../../Dtos/Resource.dto';
+import { BatchDto } from '../../Dtos/Batch.dto';
 
 @Component({
   selector: 'app-mos-resource',
@@ -13,23 +16,32 @@ import { ResourceService } from '../../services/resource.service';
 })
 export class MosResourceComponent {
 
-  @Input() batches: Batch[] = [];
-  @Input() resources: Resource[] = [];
+  // @Input() batches: Batch[] = [];
+  // @Input() resources: Resource[] = [];
+
+  protected batches: BatchDto[] = [];
+  protected resources: ResourceDto[] = [];
 
 
   manageMode: TaskManageMode = TaskManageMode.Create;
   selectedResource!: Resource;
 
   constructor(
-    private resourceService: ResourceService
+    private resourceService: ResourceService,
+    private readonly mosService: MosService
   ) {
+    effect(() => {
+      this.batches = this.mosService.batches();
+      this.resources = this.mosService.resources();
+    });
   }
 
   ngOnChanges() {
   }
 
-  onSelectResource(resource: Resource) {
-    this.selectedResource = resource;
+  onSelectResource(resource: ResourceDto) {
+    console.log(resource);
+    // this.selectedResource = resource;
   }
 
   onCloseModal() {

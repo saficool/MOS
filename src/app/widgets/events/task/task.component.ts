@@ -1,19 +1,8 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { Task } from '../../../interfaces/task.interface';
+import { TaskLayoutItem } from '../../../interfaces/task-layout-item.interface';
 
-export interface TaskLayoutItem {
-  resourceId: string;
-  taskId: string;
-  batchId: string;
-  label: string;
-  x: number;
-  y: number;
-  w: number;
-  start: Date;
-  end: Date;
-  backgroundColor?: string;
-  textColor?: string;
-}
+
 
 @Component({
   selector: 'g[app-task]',
@@ -36,14 +25,16 @@ export class TaskComponent {
     this.deleteTask.emit(this.task);
   }
 
-  onClick(task: Task) {
-    console.log(task);
-
+  onClick(task: TaskLayoutItem) {
     // this.rightClickTask.emit({
     //   task: this.task,
     //   x: event.clientX,
     //   y: event.clientY,
     //   event: event
     // });
+  }
+
+  ngOnChanges() {
+    // console.log("Task changes detected", this.task);
   }
 }

@@ -1,1 +1,19 @@
-<p>holiday works!</p>
+<svg>
+  <!-- Holiday block -->
+  <rect class="holiday-rect" [attr.x]="holiday.x" [attr.y]="holiday.y + 6" [attr.width]="holiday.w"
+    [attr.height]="rowHeight - 12" [attr.fill]="holiday.backgroundColor || '#fde68a'" rx="5" ry="5">
+    <title>
+      {{ holiday.holidayName }} ({{ holiday.holidayType }})
+      • {{ holiday.startDate | date:'mediumDate' }} - {{ holiday.endDate | date:'mediumDate' }}
+    </title>
+  </rect>
+
+  <!-- Holiday label -->
+  <text class="holiday-label" [attr.fill]="holiday.textColor" [attr.x]="holiday.x + 10"
+    [attr.y]="holiday.y + rowHeight/2 + 4">
+    {{ holiday.holidayName }}
+    @if(holiday.holidayType){
+    <tspan> ({{ holiday.holidayType }})</tspan>
+    }
+  </text>
+</svg>

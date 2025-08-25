@@ -35,44 +35,14 @@
     }
 
     @for (t of taskLayout; track $index) {
-    <!-- <ng-container>
-      <rect class="batch-rect" [attr.x]="t.x" [attr.y]="t.y + 6" [attr.width]="t.w" [attr.height]="rowHeight - 12"
-        [attr.fill]="t.backgroundColor || '#93c5fd'"></rect>
-      <text class="task-label" [attr.fill]="t.textColor" [attr.x]="t.x + 10" [attr.y]="t.y + rowHeight/2 + 4">{{
-        t.label }}</text>
-
-      <svg (click)="onEditTask(t)" [attr.x]="t.x + t.w - 38" [attr.y]="t.y + (rowHeight/2 - 6)" width="16" height="16"
-        viewBox="0 0 18 18" [attr.fill]="t.textColor" style="cursor:pointer;">
-        <path d="M12.146.146a.5.5 0 0 1 .708 0l3
-        3a.5.5 0 0 1 0 .708l-10
-        10L3 14l.146-2.854 10-10zM11.207
-        2L4 9.207V11h1.793L13 3.793 11.207
-        2z" />
-      </svg>
-      <svg (click)="onDeleteTask(t)" [attr.x]="t.x + t.w - 18" [attr.y]="t.y + (rowHeight/2 - 6)" width="16" height="16"
-        viewBox="0 0 18 18" [attr.fill]="t.textColor" style="cursor:pointer;">
-        <path d="M5.5 5.5a.5.5 0 0 1
-        .5.5v7a.5.5 0 0 1-1
-        0v-7a.5.5 0 0 1 .5-.5zM8
-        5.5a.5.5 0 0 1
-        .5.5v7a.5.5 0 0 1-1
-        0v-7a.5.5 0 0 1 .5-.5zM11
-        5.5a.5.5 0 0 1 .5.5v7a.5.5
-        0 0 1-1 0v-7a.5.5 0 0 1
-        .5-.5z" />
-        <path fill-rule="evenodd" d="M14.5 3a1 1 0 0 1-1
-        1H13v9a2 2 0 0 1-2
-        2H5a2 2 0 0 1-2-2V4h-.5a1
-        1 0 0 1 0-2H5V1a1 1 0 0
-        1 1-1h4a1 1 0 0 1
-        1 1v1h2.5a1 1 0 0
-        1 1 1zM6 1v1h4V1H6z" />
-      </svg>
-    </ng-container> -->
-
     <g app-task [task]="t" [rowHeight]="rowHeight" (editTask)="onEditTask($event)" (deleteTask)="onDeleteTask($event)">
     </g>
     }
+
+    @for (h of holidayLayout; track $index) {
+    <g app-holiday [holiday]="h" [rowHeight]="rowHeight"></g>
+    }
+
 
     @for (c of connectors; track $index) {
     <polyline class="connector" [attr.points]="c.points" fill="none" stroke="#6b7280" stroke-width="1.5"

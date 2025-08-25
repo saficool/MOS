@@ -1,6 +1,6 @@
 import { Component, effect } from '@angular/core';
 import { ZoomService } from '../../services/zoom.service';
-import { MosService } from '../../services/mos.service';
+import { UtilityService } from '../../services/utility.service';
 import { ResourceService } from '../../services/resource.service';
 import { Batch } from '../../interfaces/batch.interface';
 import { CommonModule } from '@angular/common';
@@ -23,7 +23,7 @@ export class MosToolbarComponent {
 
   constructor(
     private zoomService: ZoomService,
-    private mosService: MosService,
+    private utilityService: UtilityService,
     protected resourceService: ResourceService
   ) {
     effect(() => {
@@ -54,7 +54,6 @@ export class MosToolbarComponent {
   }
 
   onSelectedBatchChange() {
-    console.log('Selected batch changed:', this.selectedBatch.value);
     if (this.selectedBatch.value !== null) {
 
       this.resourceService.batches.set([])
@@ -116,13 +115,11 @@ export class MosToolbarComponent {
 
   private onBatchSelectionChange() {
     // Emit or handle the selection change
-    console.log('Selected batch IDs:', Array.from(this.selectedBatches));
 
     // Get the actual batch objects if needed
     const selectedBatchObjects = this.clonedBatches.filter(batch =>
       this.selectedBatches.has(batch.batchId)
     );
-    console.log('Selected batch objects:', selectedBatchObjects);
 
     // You can emit an event or call other methods here
     // this.batchSelectionChanged.emit(selectedBatchObjects);
