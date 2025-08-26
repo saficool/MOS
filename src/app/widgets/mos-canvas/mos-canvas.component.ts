@@ -10,6 +10,7 @@ import { TaskLayoutItem } from '../../interfaces/task-layout-item.interface';
 import { HolidayLayoutItem } from '../../interfaces/holiday-layout-item.interface';
 import { HolidayDto } from '../../Dtos/Holiday.dto';
 import { HolidayComponent } from '../events/holiday/holiday.component';
+import { environment } from '../../../environments/environment.development';
 
 @Component({
   selector: 'app-mos-canvas',
@@ -21,6 +22,7 @@ export class MosCanvasComponent {
 
   protected batches: BatchDto[] = [];
   protected resources: ResourceDto[] = [];
+  private clonedResources: ResourceDto[] = [];
   protected holidays: HolidayDto[] = []
 
   todayX: number | null = null;
@@ -30,7 +32,7 @@ export class MosCanvasComponent {
   gridLineHours: { x: number; label: string; }[] = [];
   showGridLineHours: boolean = false;
 
-  pxPerHour = 10;
+  pxPerHour = environment.pxPerHour;
   rowHeight = 48;
 
   totalWidth = 1000;
@@ -54,6 +56,7 @@ export class MosCanvasComponent {
     effect(() => {
       this.batches = this.mosService.batches();
       this.resources = this.mosService.resources();
+      this.clonedResources = structuredClone(this.resources)
       this.holidays = this.mosService.holidays()
       this.pxPerHour = this.zoomService.pxPerHour();
       this.showGridLineHours = this.mosService.showGridLineHours();
@@ -242,7 +245,40 @@ export class MosCanvasComponent {
     return points.join(" ");
   }
 
+  onClickTask(task: TaskLayoutItem) {
+
+    let clickedResource = this.resources.find(f => f.resourceId == task.resourceId)
+    this.updateTaskHighlight(task.resourceId, task.taskId)
+    // console.log(clickedResource)
+    this.recompute()
+  }
+
+  updateTaskHighlight(resourceId: string, taskId: string) {
+
+    let resource = this.resources.find(f => f.resourceId == resourceId)?.tasks.find(f => f.taskId == taskId)
+    resource!.backgroundColor = '#d42f60ff'
+
+    if (resource?.successors) {
+      resource.successors.forEach(task => {
+        this.updateTaskHighlight(task.resourceId, task.taskId!)
+      });
+    }
+
+    // if (resource?.predecessors) {
+    //   resource.predecessors.forEach(task => {
+    //     this.updateTaskHighlight(task.resourceId, task.taskId!)
+    //   });
+    // }
+
+  }
+
+  onRightClickTask(task: TaskLayoutItem) {
+    this.mosService.resources.set([])
+    this.mosService.resources.set([...this.clonedResources])
+  }
+
   onEditTask(task: TaskLayoutItem) {
+    console.log(task)
   }
 
   onDeleteTask(task: TaskLayoutItem) {
@@ -251,7 +287,7 @@ export class MosCanvasComponent {
       return;
     }
     else {
-      // this.resources = [...this.utilityService.deleteTask(task, this.resources)];
+      this.resources = [...this.utilityService.deleteTask(task, this.resources)];
       this.recompute();
     }
   }

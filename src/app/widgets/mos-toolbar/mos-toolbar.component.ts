@@ -6,6 +6,7 @@ import { CommonModule } from '@angular/common';
 import { FormControl, ReactiveFormsModule, ɵInternalFormsSharedModule } from '@angular/forms';
 import { MosService } from '../../services/mos.service';
 import { BatchDto } from '../../Dtos/Batch.dto';
+import { environment } from '../../../environments/environment.development';
 
 @Component({
   selector: 'app-mos-toolbar',
@@ -15,7 +16,7 @@ import { BatchDto } from '../../Dtos/Batch.dto';
 })
 export class MosToolbarComponent {
 
-  pxPerHour = 10; // Default value, will be updated by ZoomService
+  pxPerHour = environment.pxPerHour; // Default value, will be updated by ZoomService
   batches: BatchDto[] = [];
   clonedBatches: BatchDto[] = [];
   private isFirstBatchLoad = true;

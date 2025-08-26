@@ -17,5 +17,5 @@ export interface TaskDto {
 }
 
 
-export interface Successor { taskId?: string; }
-export interface Predecessor { taskId?: string; }
+export interface Successor { resourceId: string; taskId?: string; }
+export interface Predecessor { resourceId: string; taskId?: string; }

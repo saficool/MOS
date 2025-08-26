@@ -1,0 +1,28 @@
+.task-circle-group {
+  z-index: 9999;
+  /* Maximum z-index for DOM-level overlaps */
+}
+
+.task-circle {
+  animation: blink 1.5s ease-in-out infinite;
+  transition: fill 0.3s ease;
+}
+
+.task-circle:hover {
+  opacity: 0.8;
+  /* Maintain hover effect */
+}
+
+@keyframes blink {
+  0% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 0.25;
+  }
+
+  100% {
+    opacity: 1;
+  }
+}

@@ -1,10 +1,9 @@
 import { Component, Input } from '@angular/core';
 import { HolidayLayoutItem } from '../../../interfaces/holiday-layout-item.interface';
-import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'g[app-holiday]',
-  imports: [DatePipe],
+  imports: [],
   templateUrl: './holiday.component.html',
   styleUrl: './holiday.component.scss'
 })

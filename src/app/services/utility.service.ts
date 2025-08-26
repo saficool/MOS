@@ -1,15 +1,14 @@
 import { Injectable } from '@angular/core';
-import { Resource } from '../interfaces/resource.interface';
 import { Batch } from '../interfaces/batch.interface';
-import { Task } from '../interfaces/task.interface';
 import { ResourceDto } from '../Dtos/Resource.dto';
+import { TaskLayoutItem } from '../interfaces/task-layout-item.interface';
 
 @Injectable({
   providedIn: 'root'
 })
 export class UtilityService {
 
-  deleteTask(task: Task, resources: ResourceDto[]): ResourceDto[] {
+  deleteTask(task: TaskLayoutItem, resources: ResourceDto[]): ResourceDto[] {
     // Find the resource that contains the task
     const resource = resources.find(r => r.tasks.some(t => t.taskId === task.taskId));
     if (resource) {

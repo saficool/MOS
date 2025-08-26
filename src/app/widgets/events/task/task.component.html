@@ -1,15 +1,30 @@
 <svg>
-  <rect class="batch-rect" [attr.x]="task.x" [attr.y]="task.y + 6" [attr.width]="task.w" [attr.height]="rowHeight - 12"
-    [attr.fill]="task.backgroundColor || '#93c5fd'" rx="5" ry="5" (click)="onClick(task)">
-  </rect>
 
-  <text class="task-label" [attr.fill]="task.textColor" [attr.x]="task.x + 10" [attr.y]="task.y + rowHeight/2 + 4"
-    (click)="onClick(task)">
+  <!-- Background Rectangle -->
+  <rect class="batch-rect" [attr.x]="task.x" [attr.y]="task.y + 6" [attr.width]="task.w" [attr.height]="rowHeight - 12"
+    [attr.fill]="task.backgroundColor || '#93c5fd'" rx="5" ry="5" (click)="onClick()"
+    (contextmenu)="onRightClick($event)"></rect>
+
+  <!-- Progress Bar -->
+  <rect class="progress-rect" [attr.x]="task.x" [attr.y]="task.y + 6"
+    [attr.width]="(task.w - 40) * (task.progress / 100)" [attr.height]="rowHeight - 12"
+    [attr.fill]="task.progressColor || '#00FF00'" rx="5" ry="5" (click)="onClick()"
+    (contextmenu)="onRightClick($event)"></rect>
+
+  <!-- Task Name -->
+  <text class="task-label" [attr.fill]="task.textColor" [attr.x]="task.x + 20" [attr.y]="task.y + rowHeight/2 + 4"
+    (click)="onClick()" (contextmenu)="onRightClick($event)">
     {{ task.name }}
   </text>
 
+  <!-- Progress Percentage -->
+  <text class="progress-label" [attr.fill]="task.textColor || '#000000'" [attr.x]="task.x + task.w - 50"
+    [attr.y]="task.y + rowHeight/2 + 4" text-anchor="end" (click)="onClick()" (contextmenu)="onRightClick($event)">
+    {{ task.progress }}%
+  </text>
+
   <!-- Edit Icon -->
-  <g (click)="onEditClick()" style="cursor:pointer;">
+  <g (click)="onEdit()" style="cursor:pointer;">
     <rect [attr.x]="task.x + task.w - 38" [attr.y]="task.y + (rowHeight/2 - 6)" width="16" height="16"
       fill="transparent" />
     <path [attr.transform]="'translate(' + (task.x + task.w - 38) + ',' + (task.y + (rowHeight/2 - 6)) + ')'"
@@ -18,7 +33,7 @@
   </g>
 
   <!-- Delete Icon -->
-  <g (click)="onDeleteClick()" style="cursor:pointer;">
+  <g (click)="onDelete()" style="cursor:pointer;">
     <rect [attr.x]="task.x + task.w - 18" [attr.y]="task.y + (rowHeight/2 - 6)" width="16" height="16"
       fill="transparent" />
     <path [attr.transform]="'translate(' + (task.x + task.w - 18) + ',' + (task.y + (rowHeight/2 - 6)) + ')'"
@@ -27,5 +42,18 @@
     <path [attr.transform]="'translate(' + (task.x + task.w - 18) + ',' + (task.y + (rowHeight/2 - 6)) + ')'"
       [attr.fill]="task.textColor" fill-rule="evenodd"
       d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1 0-2H5V1a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v1h2.5a1 1 0 0 1 1 1zM6 1v1h4V1H6z" />
+  </g>
+
+  <!-- Blinking Circle -->
+  <!-- <g class="task-circle-group">
+    <circle class="task-circle" [attr.cx]="task.x + 10" [attr.cy]="task.y + rowHeight/2" r="6"
+      [attr.fill]="task.textColor || '#000000'" (click)="onClick()" (contextmenu)="onRightClick($event)"></circle>
+  </g> -->
+
+  <!-- Lock Icon -->
+  <g class="task-circle-group">
+    <path [attr.transform]="'translate(' + (task.x + 4) + ',' + (task.y + rowHeight/2 - 6) + ') scale(0.75)'"
+      [attr.fill]="task.textColor || '#000000'" fill-rule="evenodd"
+      d="M8 0a4 4 0 0 1 4 4v2.05a2.5 2.5 0 0 1 2 2.45v5a2.5 2.5 0 0 1-2.5 2.5h-7A2.5 2.5 0 0 1 2 13.5v-5a2.5 2.5 0 0 1 2-2.45V4a4 4 0 0 1 4-4m0 1a3 3 0 0 0-3 3v2h6V4a3 3 0 0 0-3-3" />
   </g>
 </svg>

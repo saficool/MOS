@@ -14,27 +14,31 @@ export class TaskComponent {
   @Input({ required: true }) task!: TaskLayoutItem;
   @Input({ required: true }) rowHeight!: number;
 
+  @Output() clickTask = new EventEmitter<TaskLayoutItem>();
+  @Output() rightClickTask = new EventEmitter<TaskLayoutItem>();
   @Output() editTask = new EventEmitter<TaskLayoutItem>();
   @Output() deleteTask = new EventEmitter<TaskLayoutItem>();
 
-  onEditClick() {
+
+  onClick() {
+    this.clickTask.emit(this.task);
+  }
+
+  onRightClick(event: MouseEvent) {
+    event.preventDefault();
+    this.rightClickTask.emit(this.task);
+  }
+
+  onEdit() {
     this.editTask.emit(this.task);
   }
 
-  onDeleteClick() {
+  onDelete() {
     this.deleteTask.emit(this.task);
   }
 
-  onClick(task: TaskLayoutItem) {
-    // this.rightClickTask.emit({
-    //   task: this.task,
-    //   x: event.clientX,
-    //   y: event.clientY,
-    //   event: event
-    // });
-  }
 
   ngOnChanges() {
-    // console.log("Task changes detected", this.task);
+    // console.log(this.task)
   }
 }

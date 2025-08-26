@@ -1,5 +1,5 @@
-import { Component, Input, resource, SimpleChanges } from '@angular/core';
-import { Task, TaskStatus } from '../../interfaces/task.interface';
+import { Component, Input, SimpleChanges } from '@angular/core';
+import { Task } from '../../interfaces/task.interface';
 import { UtilityService } from '../../services/utility.service';
 import { Resource } from '../../interfaces/resource.interface';
 import { TaskManageMode } from '../../enums/task-manage-mode.enum';
@@ -10,6 +10,7 @@ import { debounceTime, distinctUntilChanged, map, merge, Subscription } from 'rx
 import { MosService } from '../../services/mos.service';
 import { ResourceDto } from '../../Dtos/Resource.dto';
 import { TaskDto } from '../../Dtos/Task.dto';
+import { TaskStatus } from '../../enums/task-status.enum';
 
 
 @Component({

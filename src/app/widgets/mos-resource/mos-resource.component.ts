@@ -1,6 +1,5 @@
 import { Component, effect } from '@angular/core';
 import { Resource } from '../../interfaces/resource.interface';
-import { TaskManagerComponent } from '../task-manager/task-manager.component';
 import { TaskManageMode } from '../../enums/task-manage-mode.enum';
 import { MosService } from '../../services/mos.service';
 import { ResourceDto } from '../../Dtos/Resource.dto';
@@ -8,14 +7,11 @@ import { BatchDto } from '../../Dtos/Batch.dto';
 
 @Component({
   selector: 'app-mos-resource',
-  imports: [TaskManagerComponent],
+  imports: [],
   templateUrl: './mos-resource.component.html',
   styleUrl: './mos-resource.component.scss'
 })
 export class MosResourceComponent {
-
-  // @Input() batches: Batch[] = [];
-  // @Input() resources: Resource[] = [];
 
   protected batches: BatchDto[] = [];
   protected resources: ResourceDto[] = [];
