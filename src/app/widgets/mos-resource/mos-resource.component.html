@@ -4,7 +4,7 @@
   <div class="resource-row">
     <span class="resource-name">{{resource.name}}</span>
 
-    <!-- <button class="btn btn-sm btn-light" (click)="onSelectResource(resource)" data-bs-toggle="modal"
+    <button class="btn btn-sm btn-light" (click)="onSelectResource(resource)" data-bs-toggle="modal"
       [attr.data-bs-target]="'#exampleModal_' + i" title="New Task">
       <i class="bi bi-plus-lg"></i>
     </button>
@@ -17,8 +17,8 @@
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
           <div class="modal-body">
-            <app-task-manager [manageMode]="manageMode" [batches]="batches" [resources]="resources"
-              [selectedResource]="selectedResource"></app-task-manager>
+            <!-- <app-task-manager [manageMode]="manageMode" [batches]="batches" [resources]="resources"
+              [selectedResource]="selectedResource"></app-task-manager> -->
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"
@@ -27,7 +27,7 @@
           </div>
         </div>
       </div>
-    </div> -->
+    </div>
 
   </div>
   }
