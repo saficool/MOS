@@ -1,9 +1,7 @@
-import { Component, effect, Input } from '@angular/core';
+import { Component, effect } from '@angular/core';
 import { Resource } from '../../interfaces/resource.interface';
 import { TaskManagerComponent } from '../task-manager/task-manager.component';
-import { Batch } from '../../interfaces/batch.interface';
 import { TaskManageMode } from '../../enums/task-manage-mode.enum';
-import { ResourceService } from '../../services/resource.service';
 import { MosService } from '../../services/mos.service';
 import { ResourceDto } from '../../Dtos/Resource.dto';
 import { BatchDto } from '../../Dtos/Batch.dto';
@@ -27,7 +25,6 @@ export class MosResourceComponent {
   selectedResource!: Resource;
 
   constructor(
-    private resourceService: ResourceService,
     private readonly mosService: MosService
   ) {
     effect(() => {

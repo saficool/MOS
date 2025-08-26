@@ -1,10 +1,7 @@
-import { Component, effect, Input } from '@angular/core';
-import { Resource } from '../../interfaces/resource.interface';
-import { Batch } from '../../interfaces/batch.interface';
+import { Component, effect } from '@angular/core';
 import { UtilityService } from '../../services/utility.service';
-import { Task, TaskId } from '../../interfaces/task.interface';
+import { TaskId } from '../../interfaces/task.interface';
 import { ZoomService } from '../../services/zoom.service';
-import { ResourceService } from '../../services/resource.service';
 import { TaskComponent } from '../events/task/task.component';
 import { MosService } from '../../services/mos.service';
 import { BatchDto } from '../../Dtos/Batch.dto';
@@ -31,9 +28,9 @@ export class MosCanvasComponent {
 
   gridLineDays: { x: number; label: string; }[] = [];
   gridLineHours: { x: number; label: string; }[] = [];
-  showGridLineHours: boolean = true;
+  showGridLineHours: boolean = false;
 
-  pxPerHour = 30;
+  pxPerHour = 10;
   rowHeight = 48;
 
   totalWidth = 1000;
@@ -52,30 +49,19 @@ export class MosCanvasComponent {
   constructor(
     private utilityService: UtilityService,
     private zoomService: ZoomService,
-    private resourceService: ResourceService,
     private readonly mosService: MosService
   ) {
     effect(() => {
       this.batches = this.mosService.batches();
       this.resources = this.mosService.resources();
       this.holidays = this.mosService.holidays()
+      this.pxPerHour = this.zoomService.pxPerHour();
+      this.showGridLineHours = this.mosService.showGridLineHours();
       this.recompute();
     });
-
-    // effect(() => {
-    //   this.pxPerHour = this.zoomService.pxPerHour();
-    //   this.showGridLineHours = this.resourceService.showGridLineHours();
-    //   this.recompute();
-    // });
-    // effect(() => {
-    //   let batches = this.mosService.batches();
-    //   console.log(batches);
-    // });
   }
 
-  ngOnChanges() {
-    // this.recompute();
-  }
+  ngOnChanges() { }
 
   private recompute() {
     this.computeStartEndDates();

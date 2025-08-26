@@ -5,9 +5,11 @@ import { Resource } from '../../interfaces/resource.interface';
 import { TaskManageMode } from '../../enums/task-manage-mode.enum';
 import { AbstractControl, FormControl, FormGroup, ReactiveFormsModule, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
 import { Batch } from '../../interfaces/batch.interface';
-import { ResourceService } from '../../services/resource.service';
 import { CommonModule } from '@angular/common';
 import { debounceTime, distinctUntilChanged, map, merge, Subscription } from 'rxjs';
+import { MosService } from '../../services/mos.service';
+import { ResourceDto } from '../../Dtos/Resource.dto';
+import { TaskDto } from '../../Dtos/Task.dto';
 
 
 @Component({
@@ -20,12 +22,12 @@ export class TaskManagerComponent {
 
   @Input() manageMode: TaskManageMode = TaskManageMode.View;
   @Input() batches: Batch[] = [];
-  @Input() resources: Resource[] = [];
+  @Input() resources: ResourceDto[] = [];
   @Input() selectedResource!: Resource;
   @Input() selectedTask!: Task
 
   // Holds tasks of the selected resource in Successor section
-  protected tasksOfSelectedResource: Task[] = [];
+  protected tasksOfSelectedResource: TaskDto[] = [];
 
 
   taskManagerForm: FormGroup = new FormGroup({
@@ -53,7 +55,7 @@ export class TaskManagerComponent {
 
   constructor(
     private utilityService: UtilityService,
-    private resourceService: ResourceService
+    private mosService: MosService
   ) {
   }
 
@@ -360,7 +362,7 @@ export class TaskManagerComponent {
     this.taskManagerForm.reset();
 
     // Trigger resource update
-    this.resourceService.resources.set([]);
-    this.resourceService.resources.set(this.resources);
+    this.mosService.resources.set([]);
+    this.mosService.resources.set(this.resources);
   }
 }

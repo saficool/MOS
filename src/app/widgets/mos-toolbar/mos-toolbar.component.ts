@@ -1,10 +1,11 @@
 import { Component, effect } from '@angular/core';
 import { ZoomService } from '../../services/zoom.service';
 import { UtilityService } from '../../services/utility.service';
-import { ResourceService } from '../../services/resource.service';
 import { Batch } from '../../interfaces/batch.interface';
 import { CommonModule } from '@angular/common';
 import { FormControl, ReactiveFormsModule, ɵInternalFormsSharedModule } from '@angular/forms';
+import { MosService } from '../../services/mos.service';
+import { BatchDto } from '../../Dtos/Batch.dto';
 
 @Component({
   selector: 'app-mos-toolbar',
@@ -14,20 +15,20 @@ import { FormControl, ReactiveFormsModule, ɵInternalFormsSharedModule } from '@
 })
 export class MosToolbarComponent {
 
-  pxPerHour = 30; // Default value, will be updated by ZoomService
-  batches: Batch[] = [];
-  clonedBatches: Batch[] = [];
+  pxPerHour = 10; // Default value, will be updated by ZoomService
+  batches: BatchDto[] = [];
+  clonedBatches: BatchDto[] = [];
   private isFirstBatchLoad = true;
 
-  selectedBatch: FormControl<Batch | null> = new FormControl(null);
+  selectedBatch: FormControl<BatchDto | null> = new FormControl(null);
 
   constructor(
     private zoomService: ZoomService,
     private utilityService: UtilityService,
-    protected resourceService: ResourceService
+    protected mosService: MosService
   ) {
     effect(() => {
-      this.batches = [...resourceService.batches()];
+      this.batches = [...mosService.batches()];
       if (this.isFirstBatchLoad && this.batches.length > 0) {
         this.clonedBatches = structuredClone(this.batches);
         this.isFirstBatchLoad = false;
@@ -50,17 +51,17 @@ export class MosToolbarComponent {
 
   toggleGridLineHours() {
     // this.showGridLineHours = !this.showGridLineHours;
-    this.resourceService.showGridLineHours.set(!this.resourceService.showGridLineHours());
+    this.mosService.showGridLineHours.set(!this.mosService.showGridLineHours());
   }
 
   onSelectedBatchChange() {
     if (this.selectedBatch.value !== null) {
 
-      this.resourceService.batches.set([])
-      this.resourceService.batches.set([this.selectedBatch.value!])
+      this.mosService.batches.set([])
+      this.mosService.batches.set([this.selectedBatch.value!])
     }
     else {
-      this.resourceService.batches.set(this.clonedBatches);
+      this.mosService.batches.set(this.clonedBatches);
     }
 
   }
@@ -87,7 +88,7 @@ export class MosToolbarComponent {
     this.updateSelectAllState();
     this.onBatchSelectionChange();
   }
-  onSelectBatch(event: Event, batch: Batch) {
+  onSelectBatch(event: Event, batch: BatchDto) {
     const checkbox = event.target as HTMLInputElement;
 
     if (checkbox.checked) {
@@ -131,7 +132,7 @@ export class MosToolbarComponent {
   }
 
   // Helper method to get selected batches
-  getSelectedBatches(): Batch[] {
+  getSelectedBatches(): BatchDto[] {
     return this.clonedBatches.filter(batch =>
       this.selectedBatches.has(batch.batchId)
     );
@@ -142,7 +143,7 @@ export class MosToolbarComponent {
     this.updateSelectAllState();
     this.onBatchSelectionChange();
 
-    this.resourceService.batches.set(this.clonedBatches)
+    this.mosService.batches.set(this.clonedBatches)
   }
 
   // Apply the filter (example implementation)
@@ -150,8 +151,8 @@ export class MosToolbarComponent {
     const selectedBatches = this.getSelectedBatches();
     console.log('Applying filter with batches:', selectedBatches);
 
-    this.resourceService.batches.set([])
-    this.resourceService.batches.set(selectedBatches)
+    this.mosService.batches.set([])
+    this.mosService.batches.set(selectedBatches)
 
     // Example: Filter your data based on selected batches
     // this.filteredData = this.allData.filter(item =>

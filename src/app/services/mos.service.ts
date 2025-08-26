@@ -6,6 +6,7 @@ import { BatchDto } from '../Dtos/Batch.dto';
 import { ResourceDto } from '../Dtos/Resource.dto';
 import { HolidayTypeDto } from '../Dtos/HolidayType.dto';
 import { HolidayDto } from '../Dtos/Holiday.dto';
+import { TaskDto } from '../Dtos/Task.dto';
 
 @Injectable({
   providedIn: 'root'
@@ -16,6 +17,9 @@ export class MosService {
   resources = signal<ResourceDto[]>([]);
   holidays = signal<HolidayDto[]>([]);
   holidayTypes = signal<HolidayTypeDto[]>([]);
+  selectedResource = signal<ResourceDto | null>(null);
+  selectedTask = signal<TaskDto | null>(null);
+  showGridLineHours = signal<boolean>(true);
 
   constructor(private readonly http: HttpClient) { }
 

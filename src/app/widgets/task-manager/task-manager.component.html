@@ -83,7 +83,7 @@
         <span class="input-group-text" id="successors-task">Tasks</span>
         <select title="Task" class="form-select shadow-none" multiple formControlName="successors" size="4">
           @for (task of tasksOfSelectedResource; track $index) {
-          <option [value]="task.taskId">{{task.label}}</option>
+          <option [value]="task.taskId">{{task.name}}</option>
           }
         </select>
       </div>

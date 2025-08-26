@@ -26,7 +26,7 @@
           <input title="batch" class="form-check-input me-1" type="checkbox" [checked]="isBatchSelected(batch.batchId)"
             [attr.id]="'checkbox_'+i" (change)="onSelectBatch($event, batch)">
           <label class="form-check-label" [attr.for]="'checkbox_'+i">
-            {{batch.label}}
+            {{batch.name}}
           </label>
         </li>
         }

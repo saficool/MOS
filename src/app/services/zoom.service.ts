@@ -4,7 +4,7 @@ import { Injectable, signal } from '@angular/core';
   providedIn: 'root'
 })
 export class ZoomService {
-  pxPerHour = signal(30);   // default value = 50px/hour
+  pxPerHour = signal(15);   // default value = 50px/hour
 
   zoomIn() {
     this.pxPerHour.update(val => Math.min(200, Math.round(val * 1.25)));
@@ -15,6 +15,6 @@ export class ZoomService {
   }
 
   reset() {
-    this.pxPerHour.set(30); // Reset to default value
+    this.pxPerHour.set(10); // Reset to default value
   }
 }
