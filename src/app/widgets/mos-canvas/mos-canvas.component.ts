@@ -172,8 +172,37 @@ export class MosCanvasComponent {
           x,
           y,
           w
-        }; this.taskLayout.push(item);
+        };
+        this.taskLayout.push(item);
         batchById.set(task.taskId, item);
+      }
+    }
+
+    this.holidayLayout = []
+    for (let r = 0; r < this.rowLayout.length; r++) {
+      const row = this.rowLayout[r];
+      for (let h of (this.holidays || [])) {
+        const s = new Date(h.startDate);
+        const e = new Date(h.endDate);
+        const x = this.leftGutter + this.utilityService.dateToX(s, this.startDate, this.pxPerHour);
+        const w = Math.max(4, this.utilityService.dateToX(e, this.startDate, this.pxPerHour) - this.utilityService.dateToX(s, this.startDate, this.pxPerHour));
+        const y = row.y;
+
+        const item: HolidayLayoutItem = {
+          holidayId: h.holidayId,
+          holidayName: h.holidayName,
+          holidayType: h.holidayType,
+
+          startDate: h.startDate,
+          endDate: h.endDate,
+          duration: h.duration,
+
+          x,
+          y,
+          w
+        };
+        this.holidayLayout.push(item);
+
       }
     }
 
@@ -195,29 +224,6 @@ export class MosCanvasComponent {
         }
       }
     }
-
-    this.holidays = []
-    for (let h of this.holidays) {
-      const s = new Date(h.startDate);
-      const e = new Date(h.endDate);
-      const x = this.leftGutter + this.utilityService.dateToX(s, this.startDate, this.pxPerHour);
-      const w = Math.max(4, this.utilityService.dateToX(e, this.startDate, this.pxPerHour) - this.utilityService.dateToX(s, this.startDate, this.pxPerHour));
-      const y = this.headerHeight + this.rowLayout.length * this.rowHeight + 8;
-      const item: HolidayLayoutItem = {
-        holidayId: h.holidayId,
-        holidayName: h.holidayName,
-        holidayType: h.holidayType,
-
-        startDate: h.startDate,
-        endDate: h.endDate,
-        duration: h.duration,
-
-        x,
-        y,
-        w
-      }; this.holidayLayout.push(item);
-    }
-
 
   }
 
