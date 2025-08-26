@@ -134,11 +134,9 @@ export class MosCanvasComponent {
 
         const s = new Date(task.startDate as any);
         const e = new Date(task.endDate as any);
-        const x = this.leftGutter + this.utilityService.dateToX(s, this.startDate, this.pxPerHour);
-        const w = Math.max(4, this.utilityService.dateToX(e, this.startDate, this.pxPerHour) - this.utilityService.dateToX(s, this.startDate, this.pxPerHour));
+        const x = this.leftGutter + this.utilityService.dateToX(s, this.startDate, this.pxPerHour) + 2;
+        const w = Math.max(4, this.utilityService.dateToX(e, this.startDate, this.pxPerHour) - this.utilityService.dateToX(s, this.startDate, this.pxPerHour)) - 4;
         const y = row.y;
-        // const backgroundcolor = task.color || this.utilityService.getColorForBatch(task.batchId!, this.batches);
-        // const item = { resourceId: row.resource.resourceId, taskId: task.taskId, batchId: task.batch.batchId!, label: task.name, x, y, w, start: s, end: e, backgroundColor: task.backgroundColor, textColor: task.textColor };
         const item: TaskLayoutItem = {
           resourceId: row.resource.resourceId,
           taskId: task.taskId,
@@ -170,8 +168,8 @@ export class MosCanvasComponent {
       for (let h of (this.holidays || [])) {
         const s = new Date(h.startDate);
         const e = new Date(h.endDate);
-        const x = this.leftGutter + this.utilityService.dateToX(s, this.startDate, this.pxPerHour);
-        const w = Math.max(4, this.utilityService.dateToX(e, this.startDate, this.pxPerHour) - this.utilityService.dateToX(s, this.startDate, this.pxPerHour));
+        const x = this.leftGutter + this.utilityService.dateToX(s, this.startDate, this.pxPerHour) + 2;
+        const w = Math.max(4, this.utilityService.dateToX(e, this.startDate, this.pxPerHour) - this.utilityService.dateToX(s, this.startDate, this.pxPerHour)) - 4;
         const y = row.y;
 
         const item: HolidayLayoutItem = {
