@@ -35,7 +35,7 @@
     }
 
     @for (t of taskLayout; track $index) {
-    <g app-task [task]="t" [rowHeight]="rowHeight" (clickTask)="onClickTask($event)"
+    <g app-task [task]="t" [rowHeight]="rowHeight" [pxPerHour]="pxPerHour" (clickTask)="onClickTask($event)"
       (rightClickTask)="onRightClickTask($event)" (editTask)="onEditTask($event)" (deleteTask)="onDeleteTask($event)">
     </g>
     }

@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, effect, EventEmitter, Input, Output } from '@angular/core';
 import { Task } from '../../../interfaces/task.interface';
 import { TaskLayoutItem } from '../../../interfaces/task-layout-item.interface';
 
@@ -13,6 +13,7 @@ import { TaskLayoutItem } from '../../../interfaces/task-layout-item.interface';
 export class TaskComponent {
   @Input({ required: true }) task!: TaskLayoutItem;
   @Input({ required: true }) rowHeight!: number;
+  @Input({ required: true }) pxPerHour!: number;
 
   @Output() clickTask = new EventEmitter<TaskLayoutItem>();
   @Output() rightClickTask = new EventEmitter<TaskLayoutItem>();
@@ -40,5 +41,6 @@ export class TaskComponent {
 
   ngOnChanges() {
     // console.log(this.task)
+    console.log(this.pxPerHour)
   }
 }

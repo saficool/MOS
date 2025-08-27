@@ -11,6 +11,7 @@ export interface TaskDto {
   backgroundColor?: string;
   textColor?: string;
   progressColor?: string;
+  status: string;
   batch: BatchDto;
   successors: Successor[];
   predecessors: Predecessor[];

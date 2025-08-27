@@ -9,17 +9,19 @@
   <div>
     <div class="input-group input-group-sm">
       <span class="input-group-text">From</span>
-      <!-- [value]="startDate | date:'yyyy-MM-dd'" -->
-      <input title="Start Date" type="date" class="form-control" [formControl]="startDate">
+      <input title="Start date" type="date" class="form-control" [value]="startDateString"
+        (change)="onStartDateChange($event)">
+    </div>
+
+  </div>
+  <div>
+    <div class="input-group input-group-sm">
+      <span class="input-group-text">To</span>
+      <input title="End date" type="date" class="form-control" [value]="endDateString"
+        (change)="onEndDateChange($event)">
     </div>
   </div>
 
-  <div>
-    <div class="input-group input-group-sm">
-      <span class="input-group-text">From</span>
-      <input title="End date" type="date" class="form-control" [formControl]="endDate">
-    </div>
-  </div>
 
   <div class="dropdown">
     <button class="btn btn-sm btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown"

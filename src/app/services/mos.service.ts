@@ -20,6 +20,7 @@ export class MosService {
   selectedResource = signal<ResourceDto | null>(null);
   selectedTask = signal<TaskDto | null>(null);
   showGridLineHours = signal<boolean>(true);
+
   startDate = signal<Date>(new Date());
   endDate = signal<Date>(new Date());
 

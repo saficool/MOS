@@ -26,6 +26,8 @@ export class MosResourceComponent {
     effect(() => {
       this.batches = this.mosService.batches();
       this.resources = this.mosService.resources();
+
+      console.log(this.resources)
     });
   }
 

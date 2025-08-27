@@ -10,6 +10,8 @@ export interface TaskLayoutItem {
   duration: number;
   progress: number;
 
+  status: string;
+
   backgroundColor?: string;
   textColor?: string;
   progressColor?: string;

@@ -11,17 +11,64 @@
     [attr.fill]="task.progressColor || '#00FF00'" rx="5" ry="5" (click)="onClick()"
     (contextmenu)="onRightClick($event)"></rect>
 
+  <!-- Task status -->
+  <g class="task-circle-group">
+
+    @if (task.status=='InProgress') {
+    <circle class="task-circle" [attr.cx]="task.x + 10" [attr.cy]="task.y + rowHeight/2" r="6"
+      [attr.fill]="task.textColor || '#000000'" (click)="onClick()" (contextmenu)="onRightClick($event)">
+    </circle>
+    }
+    @if (task.status=='Locked') {
+    <path [attr.transform]="'translate(' + (task.x + 4) + ',' + (task.y + rowHeight/2 - 6) + ') scale(0.75)'"
+      [attr.fill]="task.textColor || '#000000'" fill-rule="evenodd"
+      d="M8 0a4 4 0 0 1 4 4v2.05a2.5 2.5 0 0 1 2 2.45v5a2.5 2.5 0 0 1-2.5 2.5h-7A2.5 2.5 0 0 1 2 13.5v-5a2.5 2.5 0 0 1 2-2.45V4a4 4 0 0 1 4-4m0 1a3 3 0 0 0-3 3v2h6V4a3 3 0 0 0-3-3" />
+    }
+    @if (task.status=='Completed') {
+    <path [attr.transform]="'translate(' + (task.x + 4) + ',' + (task.y + rowHeight/2 - 6) + ') scale(0.75)'"
+      [attr.fill]="task.textColor || '#000000'"
+      d="M12.354 4.354a.5.5 0 0 0-.708-.708L5 10.293 1.854 7.146a.5.5 0 1 0-.708.708l3.5 3.5a.5.5 0 0 0 .708 0zm-4.208 7-.896-.897.707-.707.543.543 6.646-6.647a.5.5 0 0 1 .708.708l-7 7a.5.5 0 0 1-.708 0" />
+    <path [attr.transform]="'translate(' + (task.x + 4) + ',' + (task.y + rowHeight/2 - 6) + ') scale(0.75)'"
+      [attr.fill]="task.textColor || '#000000'" d="m5.354 7.146.896.897-.707.707-.897-.896a.5.5 0 1 1 .708-.708" />
+    }
+    @if (task.status=='Planned') {
+    <path [attr.transform]="'translate(' + (task.x + 4) + ',' + (task.y + rowHeight/2 - 6) + ') scale(0.75)'"
+      [attr.fill]="task.textColor || '#000000'"
+      d="M4 .5a.5.5 0 0 0-1 0V1H2a2 2 0 0 0-2 2v1h16V3a2 2 0 0 0-2-2h-1V.5a.5.5 0 0 0-1 0V1H4zM16 14V5H0v9a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2m-3.5-7h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1a.5.5 0 0 1 .5-.5" />
+    }
+    @if (task.status=='Cancelled') {
+    <path [attr.transform]="'translate(' + (task.x + 4) + ',' + (task.y + rowHeight/2 - 6) + ') scale(0.75)'"
+      [attr.fill]="task.textColor || '#000000'"
+      d="M10.371 8.277v-.553c0-.827-.422-1.234-.987-1.234-.572 0-.99.407-.99 1.234v.553c0 .83.418 1.237.99 1.237.565 0 .987-.408.987-1.237m2.586-.24c.463 0 .735-.272.735-.744s-.272-.741-.735-.741h-.774v1.485z" />
+    <path [attr.transform]="'translate(' + (task.x + 4) + ',' + (task.y + rowHeight/2 - 6) + ') scale(0.75)'"
+      [attr.fill]="task.textColor || '#000000'"
+      d="M4.893 0a.5.5 0 0 0-.353.146L.146 4.54A.5.5 0 0 0 0 4.893v6.214a.5.5 0 0 0 .146.353l4.394 4.394a.5.5 0 0 0 .353.146h6.214a.5.5 0 0 0 .353-.146l4.394-4.394a.5.5 0 0 0 .146-.353V4.893a.5.5 0 0 0-.146-.353L11.46.146A.5.5 0 0 0 11.107 0zM3.16 10.08c-.931 0-1.447-.493-1.494-1.132h.653c.065.346.396.583.891.583.524 0 .83-.246.83-.62 0-.303-.203-.467-.637-.572l-.656-.164c-.61-.147-.978-.51-.978-1.078 0-.706.597-1.184 1.444-1.184.853 0 1.386.475 1.436 1.087h-.645c-.064-.32-.352-.542-.797-.542-.472 0-.77.246-.77.6 0 .261.196.437.553.522l.654.161c.673.164 1.06.487 1.06 1.11 0 .736-.574 1.228-1.544 1.228Zm3.427-3.51V10h-.665V6.57H4.753V6h3.006v.568H6.587Zm4.458 1.16v.544c0 1.131-.636 1.805-1.661 1.805-1.026 0-1.664-.674-1.664-1.805V7.73c0-1.136.638-1.807 1.664-1.807s1.66.674 1.66 1.807ZM11.52 6h1.535c.82 0 1.316.55 1.316 1.292 0 .747-.501 1.289-1.321 1.289h-.865V10h-.665V6.001Z" />
+    }
+    @if (task.status=='Failed') {
+    <path [attr.transform]="'translate(' + (task.x + 4) + ',' + (task.y + rowHeight/2 - 6) + ') scale(0.75)'"
+      [attr.fill]="task.textColor || '#000000'"
+      d="M4.978.855a.5.5 0 1 0-.956.29l.41 1.352A5 5 0 0 0 3 6h10a5 5 0 0 0-1.432-3.503l.41-1.352a.5.5 0 1 0-.956-.29l-.291.956A5 5 0 0 0 8 1a5 5 0 0 0-2.731.811l-.29-.956z" />
+    <path [attr.transform]="'translate(' + (task.x + 4) + ',' + (task.y + rowHeight/2 - 6) + ') scale(0.75)'"
+      [attr.fill]="task.textColor || '#000000'"
+      d="M13 6v1H8.5v8.975A5 5 0 0 0 13 11h.5a.5.5 0 0 1 .5.5v.5a.5.5 0 1 0 1 0v-.5a1.5 1.5 0 0 0-1.5-1.5H13V9h1.5a.5.5 0 0 0 0-1H13V7h.5A1.5 1.5 0 0 0 15 5.5V5a.5.5 0 0 0-1 0v.5a.5.5 0 0 1-.5.5zm-5.5 9.975V7H3V6h-.5a.5.5 0 0 1-.5-.5V5a.5.5 0 0 0-1 0v.5A1.5 1.5 0 0 0 2.5 7H3v1H1.5a.5.5 0 0 0 0 1H3v1h-.5A1.5 1.5 0 0 0 1 11.5v.5a.5.5 0 1 0 1 0v-.5a.5.5 0 0 1 .5-.5H3a5 5 0 0 0 4.5 4.975" />
+    }
+
+  </g>
+
   <!-- Task Name -->
+  @if (pxPerHour>8) {
+
   <text class="task-label" [attr.fill]="task.textColor" [attr.x]="task.x + 20" [attr.y]="task.y + rowHeight/2 + 4"
     (click)="onClick()" (contextmenu)="onRightClick($event)">
-    {{ task.name }}
+    {{ task.name }} ({{ task.progress }}%)
   </text>
 
+
   <!-- Progress Percentage -->
-  <text class="progress-label" [attr.fill]="task.textColor || '#000000'" [attr.x]="task.x + task.w - 50"
+  <!-- <text class="progress-label" [attr.fill]="task.textColor || '#000000'" [attr.x]="task.x + task.w - 50"
     [attr.y]="task.y + rowHeight/2 + 4" text-anchor="end" (click)="onClick()" (contextmenu)="onRightClick($event)">
     {{ task.progress }}%
-  </text>
+  </text> -->
 
   <!-- Edit Icon -->
   <g (click)="onEdit()" style="cursor:pointer;">
@@ -43,17 +90,7 @@
       [attr.fill]="task.textColor" fill-rule="evenodd"
       d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1 0-2H5V1a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v1h2.5a1 1 0 0 1 1 1zM6 1v1h4V1H6z" />
   </g>
+  }
 
-  <!-- Blinking Circle -->
-  <!-- <g class="task-circle-group">
-    <circle class="task-circle" [attr.cx]="task.x + 10" [attr.cy]="task.y + rowHeight/2" r="6"
-      [attr.fill]="task.textColor || '#000000'" (click)="onClick()" (contextmenu)="onRightClick($event)"></circle>
-  </g> -->
 
-  <!-- Lock Icon -->
-  <g class="task-circle-group">
-    <path [attr.transform]="'translate(' + (task.x + 4) + ',' + (task.y + rowHeight/2 - 6) + ') scale(0.75)'"
-      [attr.fill]="task.textColor || '#000000'" fill-rule="evenodd"
-      d="M8 0a4 4 0 0 1 4 4v2.05a2.5 2.5 0 0 1 2 2.45v5a2.5 2.5 0 0 1-2.5 2.5h-7A2.5 2.5 0 0 1 2 13.5v-5a2.5 2.5 0 0 1 2-2.45V4a4 4 0 0 1 4-4m0 1a3 3 0 0 0-3 3v2h6V4a3 3 0 0 0-3-3" />
-  </g>
 </svg>

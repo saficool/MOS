@@ -184,6 +184,8 @@ export class MosCanvasComponent {
           duration: task.duration,
           progress: task.progress,
 
+          status: task.status,
+
           backgroundColor: task.backgroundColor,
           textColor: task.textColor,
           progressColor: task.progressColor,

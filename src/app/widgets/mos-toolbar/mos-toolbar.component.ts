@@ -22,8 +22,8 @@ export class MosToolbarComponent {
   private isFirstBatchLoad = true;
 
   selectedBatch: FormControl<BatchDto | null> = new FormControl(null);
-  startDate: FormControl<string | null> = new FormControl(null)
-  endDate: FormControl<string | null> = new FormControl(null)
+  startDate: FormControl<Date | null> = new FormControl(null)
+  endDate: FormControl<Date | null> = new FormControl(null)
 
   // startDate = new Date()
   // endDate = new Date()
@@ -48,11 +48,14 @@ export class MosToolbarComponent {
       }
       this.pxPerHour = this.zoomService.pxPerHour();
       if (this.utilityService.isValidDate(this.mosService.startDate()) && utilityService.isValidDate(this.mosService.endDate())) {
+
         let _startDate = this.mosService.startDate().toISOString()
         let _endDate = this.mosService.endDate().toISOString()
 
-        this.startDate.setValue(this.formatDateForInput(_startDate))
-        this.endDate.setValue(this.formatDateForInput(_endDate))
+        console.log(_endDate)
+
+        this.startDate.setValue(new Date(_startDate))
+        this.endDate.setValue(new Date(_endDate))
       }
     });
   }
@@ -197,19 +200,29 @@ export class MosToolbarComponent {
     return `${selected} of ${total} selected`;
   }
 
+  // Getters for template
+  get startDateString(): string {
+    const date = this.startDate.value;
+    return date ? this.formatDateForInput(date.toISOString()) : '';
+  }
+
+  get endDateString(): string {
+    const date = this.endDate.value;
+    return date ? this.formatDateForInput(date.toISOString()) : '';
+  }
+
   private formatDateForInput(isoDate: string): string {
-    return isoDate.split('T')[0]; // Returns: "2025-08-24"
+    return isoDate.split('T')[0];
   }
 
-  // When you need to convert back to Date or ISO string
-  getStartDateAsDate(): Date | null {
-    const value = this.startDate.value;
-    return value ? new Date(value) : null;
+  onStartDateChange(event: any) {
+    const dateString = event.target.value;
+    this.startDate.setValue(dateString ? new Date(dateString + 'T00:00:00.000Z') : null);
   }
 
-  getStartDateAsISO(): string | null {
-    const value = this.startDate.value;
-    return value ? new Date(value + 'T00:00:00.000Z').toISOString() : null;
+  onEndDateChange(event: any) {
+    const dateString = event.target.value;
+    this.endDate.setValue(dateString ? new Date(dateString + 'T23:59:59.000Z') : null);
   }
 
 }
