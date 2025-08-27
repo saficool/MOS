@@ -206,8 +206,8 @@ export class MosCanvasComponent {
       for (let h of (this.holidays || [])) {
         const s = new Date(h.startDate);
         const e = new Date(h.endDate);
-        const x = this.leftGutter + this.utilityService.dateToX(s, this.startDate, this.pxPerHour) + 2;
-        const w = Math.max(4, this.utilityService.dateToX(e, this.startDate, this.pxPerHour) - this.utilityService.dateToX(s, this.startDate, this.pxPerHour)) - 4;
+        const x = this.leftGutter + this.utilityService.dateToX(s, this.startDate, this.pxPerHour) + 4;
+        const w = Math.max(4, this.utilityService.dateToX(e, this.startDate, this.pxPerHour) - this.utilityService.dateToX(s, this.startDate, this.pxPerHour)) - 8;
         const y = row.y;
 
         const item: HolidayLayoutItem = {

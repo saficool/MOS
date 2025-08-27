@@ -1,9 +1,9 @@
-<div class="resource-column">
-  <div class="d-flex align-items-center px-2 border-bottom" style="height: 30.5px;">Resources</div>
+<div class="resource-column border border-end">
+  <div class="d-flex align-items-center px-2 border-bottom" style="height: 29.4px;">Resources</div>
   @for (resource of resources; let i = $index; track $index) {
   <div class="resource-row">
     <span class="resource-name">{{resource.name}}</span>
-
+    <!--
     <button class="btn btn-sm btn-light" (click)="onSelectResource(resource)" data-bs-toggle="modal"
       [attr.data-bs-target]="'#exampleModal_' + i" title="New Task">
       <i class="bi bi-plus-lg"></i>
@@ -17,8 +17,8 @@
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
           <div class="modal-body">
-            <!-- <app-task-manager [manageMode]="manageMode" [batches]="batches" [resources]="resources"
-              [selectedResource]="selectedResource"></app-task-manager> -->
+            <app-task-manager [manageMode]="manageMode" [batches]="batches" [resources]="resources"
+              [selectedResource]="selectedResource"></app-task-manager>
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"
@@ -27,7 +27,7 @@
           </div>
         </div>
       </div>
-    </div>
+    </div> -->
 
   </div>
   }
