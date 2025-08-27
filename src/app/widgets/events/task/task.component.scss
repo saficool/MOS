@@ -26,3 +26,15 @@
     opacity: 1;
   }
 }
+
+.task-icons {
+  opacity: 0;
+  transition: opacity 0.2s ease-in-out;
+}
+
+.batch-rect:hover~.task-icons,
+.progress-rect:hover~.task-icons,
+.task-label:hover~.task-icons,
+.task-icons:hover {
+  opacity: 1;
+}
