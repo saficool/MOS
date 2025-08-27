@@ -19,7 +19,7 @@ export class MosService {
   holidayTypes = signal<HolidayTypeDto[]>([]);
   selectedResource = signal<ResourceDto | null>(null);
   selectedTask = signal<TaskDto | null>(null);
-  showGridLineHours = signal<boolean>(true);
+  showGridLineHours = signal<boolean>(false);
 
   startDate = signal<Date>(new Date());
   endDate = signal<Date>(new Date());

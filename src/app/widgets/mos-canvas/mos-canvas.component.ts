@@ -188,7 +188,8 @@ export class MosCanvasComponent {
 
           backgroundColor: task.backgroundColor,
           textColor: task.textColor,
-          progressColor: task.progressColor,
+          // progressColor: task.progressColor,
+          progressColor: this.utilityService.darkenColor(task.backgroundColor!, 15),
 
           x,
           y,
@@ -280,6 +281,12 @@ export class MosCanvasComponent {
   }
 
   onClickTask(task: TaskLayoutItem) {
+    // this.onRightClickTask(task)
+    // setTimeout(() => {
+    //   this.highlightSuccessors(task.resourceId, task.taskId, new Set());
+    //   this.highlightPredecessors(task.resourceId, task.taskId, new Set());
+    //   this.recompute()
+    // }, 300);
     this.highlightSuccessors(task.resourceId, task.taskId, new Set());
     this.highlightPredecessors(task.resourceId, task.taskId, new Set());
     this.recompute()
@@ -293,7 +300,8 @@ export class MosCanvasComponent {
     const resource = this.resources.find(f => f.resourceId == resourceId)?.tasks.find(f => f.taskId == taskId);
     if (!resource) return;
 
-    resource.backgroundColor = '#d42f60ff';
+    resource.backgroundColor = '#065983';
+    resource.textColor = '#fff';
 
     resource.successors?.forEach(task => {
       this.highlightSuccessors(task.resourceId, task.taskId!, visited);
@@ -308,7 +316,8 @@ export class MosCanvasComponent {
     const resource = this.resources.find(f => f.resourceId == resourceId)?.tasks.find(f => f.taskId == taskId);
     if (!resource) return;
 
-    resource.backgroundColor = '#d42f60ff';
+    resource.backgroundColor = '#065983';
+    resource.textColor = '#fff';
 
     resource.predecessors?.forEach(task => {
       this.highlightPredecessors(task.resourceId, task.taskId!, visited);

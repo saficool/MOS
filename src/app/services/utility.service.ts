@@ -71,4 +71,30 @@ export class UtilityService {
   isValidDate(date: Date): boolean {
     return date instanceof Date && !isNaN(date.getTime());
   }
+
+  /**
+ * Returns a hex color that is 10% darker than the input color
+ * @param hexColor - Input hex color (with or without #)
+ * @returns Darker hex color
+ */
+  darkenColor(hexColor: string, percentage: number = 10): string {
+    // Remove # if present
+    const hex = hexColor.replace('#', '');
+
+    // Parse RGB values
+    const r = parseInt(hex.substring(0, 2), 16);
+    const g = parseInt(hex.substring(2, 4), 16);
+    const b = parseInt(hex.substring(4, 6), 16);
+
+    // Calculate darker values (reduce by percentage)
+    const factor = (100 - percentage) / 100;
+    const newR = Math.round(r * factor);
+    const newG = Math.round(g * factor);
+    const newB = Math.round(b * factor);
+
+    // Convert back to hex and pad with zeros if needed
+    const toHex = (value: number) => value.toString(16).padStart(2, '0');
+
+    return `#${toHex(newR)}${toHex(newG)}${toHex(newB)}`;
+  }
 }
