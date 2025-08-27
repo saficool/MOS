@@ -3,14 +3,14 @@ import { ZoomService } from '../../services/zoom.service';
 import { UtilityService } from '../../services/utility.service';
 import { Batch } from '../../interfaces/batch.interface';
 import { CommonModule } from '@angular/common';
-import { FormControl, ReactiveFormsModule, ɵInternalFormsSharedModule } from '@angular/forms';
+import { FormControl, FormsModule, ReactiveFormsModule, ɵInternalFormsSharedModule } from '@angular/forms';
 import { MosService } from '../../services/mos.service';
 import { BatchDto } from '../../Dtos/Batch.dto';
 import { environment } from '../../../environments/environment.development';
 
 @Component({
   selector: 'app-mos-toolbar',
-  imports: [CommonModule, ɵInternalFormsSharedModule, ReactiveFormsModule],
+  imports: [CommonModule, ɵInternalFormsSharedModule, ReactiveFormsModule, FormsModule],
   templateUrl: './mos-toolbar.component.html',
   styleUrl: './mos-toolbar.component.scss'
 })
@@ -22,6 +22,11 @@ export class MosToolbarComponent {
   private isFirstBatchLoad = true;
 
   selectedBatch: FormControl<BatchDto | null> = new FormControl(null);
+  startDate: FormControl<string | null> = new FormControl(null)
+  endDate: FormControl<string | null> = new FormControl(null)
+
+  // startDate = new Date()
+  // endDate = new Date()
 
   constructor(
     private zoomService: ZoomService,
@@ -42,6 +47,13 @@ export class MosToolbarComponent {
         this.updateSelectAllState();
       }
       this.pxPerHour = this.zoomService.pxPerHour();
+      if (this.utilityService.isValidDate(this.mosService.startDate()) && utilityService.isValidDate(this.mosService.endDate())) {
+        let _startDate = this.mosService.startDate().toISOString()
+        let _endDate = this.mosService.endDate().toISOString()
+
+        this.startDate.setValue(this.formatDateForInput(_startDate))
+        this.endDate.setValue(this.formatDateForInput(_endDate))
+      }
     });
   }
 
@@ -183,6 +195,21 @@ export class MosToolbarComponent {
     if (selected === 0) return 'None selected';
     if (selected === total) return 'All selected';
     return `${selected} of ${total} selected`;
+  }
+
+  private formatDateForInput(isoDate: string): string {
+    return isoDate.split('T')[0]; // Returns: "2025-08-24"
+  }
+
+  // When you need to convert back to Date or ISO string
+  getStartDateAsDate(): Date | null {
+    const value = this.startDate.value;
+    return value ? new Date(value) : null;
+  }
+
+  getStartDateAsISO(): string | null {
+    const value = this.startDate.value;
+    return value ? new Date(value + 'T00:00:00.000Z').toISOString() : null;
   }
 
 }

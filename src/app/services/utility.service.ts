@@ -68,5 +68,7 @@ export class UtilityService {
   generateId(): string {
     return Math.random().toString(36).substring(2, 9);
   }
-
+  isValidDate(date: Date): boolean {
+    return date instanceof Date && !isNaN(date.getTime());
+  }
 }

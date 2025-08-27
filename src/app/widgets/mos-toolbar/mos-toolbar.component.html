@@ -6,6 +6,20 @@
   <div class="legend">px/hr: {{pxPerHour}}</div>
   <div class="flex-grow-1"></div>
 
+  <div>
+    <div class="input-group input-group-sm">
+      <span class="input-group-text">From</span>
+      <!-- [value]="startDate | date:'yyyy-MM-dd'" -->
+      <input title="Start Date" type="date" class="form-control" [formControl]="startDate">
+    </div>
+  </div>
+
+  <div>
+    <div class="input-group input-group-sm">
+      <span class="input-group-text">From</span>
+      <input title="End date" type="date" class="form-control" [formControl]="endDate">
+    </div>
+  </div>
 
   <div class="dropdown">
     <button class="btn btn-sm btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown"

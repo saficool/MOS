@@ -11,6 +11,7 @@ import { HolidayLayoutItem } from '../../interfaces/holiday-layout-item.interfac
 import { HolidayDto } from '../../Dtos/Holiday.dto';
 import { HolidayComponent } from '../events/holiday/holiday.component';
 import { environment } from '../../../environments/environment.development';
+import { max } from 'rxjs';
 
 @Component({
   selector: 'app-mos-canvas',
@@ -60,6 +61,10 @@ export class MosCanvasComponent {
       this.holidays = this.mosService.holidays()
       this.pxPerHour = this.zoomService.pxPerHour();
       this.showGridLineHours = this.mosService.showGridLineHours();
+      // this.startDate = mosService.startDate()
+      // this.endDate = mosService.endDate()
+      // this.computeStartEndDates()
+      // this.computeTodayX()
       this.recompute();
     });
   }
@@ -67,25 +72,52 @@ export class MosCanvasComponent {
   ngOnChanges() { }
 
   private recompute() {
-    this.computeStartEndDates();
+    this.computeStartEndDatesTodays()
     this.computeCanvasLayout()
     this.computeEventLayout()
   }
 
-  private computeStartEndDates() {
+  private computeStartEndDatesTodays() {
     // Calculate the minimum and maximum dates from the resources
     const { minDate, maxDate } = this.utilityService.getMinMaxDates(this.resources);
+
+    // check if minDate and Maxdate is valid
+    // if (!this.utilityService.isValidDate(minDate) || this.utilityService.isValidDate(maxDate)) {
+    //   return;
+    // }
+
     this.startDate = minDate;
     this.endDate = maxDate;
 
-    // Calculate todayX once
+    this.mosService.startDate.set(minDate)
+    this.mosService.endDate.set(maxDate)
+
     const t = new Date();
     if (t < this.startDate || t > this.endDate) {
       this.todayX = null;
     } else {
       this.todayX = this.leftGutter + this.utilityService.dateToX(t, this.startDate, this.pxPerHour);
     }
+  }
 
+  private computeStartEndDates() {
+    const { minDate, maxDate } = this.utilityService.getMinMaxDates(this.resources);
+
+    // check if minDate and Maxdate is valid
+    if (!this.utilityService.isValidDate(minDate) || this.utilityService.isValidDate(maxDate)) {
+      return;
+    }
+    this.mosService.startDate.set(minDate)
+    this.mosService.endDate.set(maxDate)
+  }
+
+  private computeTodayX() {
+    const t = new Date();
+    if (t < this.startDate || t > this.endDate) {
+      this.todayX = null;
+    } else {
+      this.todayX = this.leftGutter + this.utilityService.dateToX(t, this.startDate, this.pxPerHour);
+    }
   }
 
   private computeCanvasLayout() {
@@ -246,30 +278,39 @@ export class MosCanvasComponent {
   }
 
   onClickTask(task: TaskLayoutItem) {
-
-    let clickedResource = this.resources.find(f => f.resourceId == task.resourceId)
-    this.updateTaskHighlight(task.resourceId, task.taskId)
-    // console.log(clickedResource)
+    this.highlightSuccessors(task.resourceId, task.taskId, new Set());
+    this.highlightPredecessors(task.resourceId, task.taskId, new Set());
     this.recompute()
   }
 
-  updateTaskHighlight(resourceId: string, taskId: string) {
+  private highlightSuccessors(resourceId: string, taskId: string, visited: Set<string>) {
+    const taskKey = `${resourceId}-${taskId}`;
+    if (visited.has(taskKey)) return;
+    visited.add(taskKey);
 
-    let resource = this.resources.find(f => f.resourceId == resourceId)?.tasks.find(f => f.taskId == taskId)
-    resource!.backgroundColor = '#d42f60ff'
+    const resource = this.resources.find(f => f.resourceId == resourceId)?.tasks.find(f => f.taskId == taskId);
+    if (!resource) return;
 
-    if (resource?.successors) {
-      resource.successors.forEach(task => {
-        this.updateTaskHighlight(task.resourceId, task.taskId!)
-      });
-    }
+    resource.backgroundColor = '#d42f60ff';
 
-    // if (resource?.predecessors) {
-    //   resource.predecessors.forEach(task => {
-    //     this.updateTaskHighlight(task.resourceId, task.taskId!)
-    //   });
-    // }
+    resource.successors?.forEach(task => {
+      this.highlightSuccessors(task.resourceId, task.taskId!, visited);
+    });
+  }
 
+  private highlightPredecessors(resourceId: string, taskId: string, visited: Set<string>) {
+    const taskKey = `${resourceId}-${taskId}`;
+    if (visited.has(taskKey)) return;
+    visited.add(taskKey);
+
+    const resource = this.resources.find(f => f.resourceId == resourceId)?.tasks.find(f => f.taskId == taskId);
+    if (!resource) return;
+
+    resource.backgroundColor = '#d42f60ff';
+
+    resource.predecessors?.forEach(task => {
+      this.highlightPredecessors(task.resourceId, task.taskId!, visited);
+    });
   }
 
   onRightClickTask(task: TaskLayoutItem) {
