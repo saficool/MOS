@@ -5,6 +5,7 @@ import { ResourceDto } from '../../Dtos/Resource.dto';
 import { BatchDto } from '../../Dtos/Batch.dto';
 import { HolidayTypeDto } from '../../Dtos/HolidayType.dto';
 import { HolidayDto } from '../../Dtos/Holiday.dto';
+import { UtilityService } from '../../services/utility.service';
 
 @Component({
   selector: 'app-mos',
@@ -18,7 +19,8 @@ export class MosComponent {
   rawResources: ResourceDto[] = [];
 
   constructor(
-    private readonly mosService: MosService
+    private readonly mosService: MosService,
+    private readonly utilityService: UtilityService
   ) {
   }
 
@@ -44,6 +46,7 @@ export class MosComponent {
     this.mosService.getresources().subscribe({
       next: (data: ResourceDto[]) => {
         this.mosService.resources.set([...data]);
+        this.getStartEndDates(data);
       },
       error: (error) => {
         console.error('Error fetching resources:', error);
@@ -73,6 +76,13 @@ export class MosComponent {
       }
     }
     )
+  }
+
+  getStartEndDates(resources: ResourceDto[]) {
+    // Calculate the minimum and maximum dates from the resources
+    const { minDate, maxDate } = this.utilityService.getMinMaxDates(resources);
+    this.mosService.startDate.set(minDate)
+    this.mosService.endDate.set(maxDate)
   }
 
 

@@ -61,8 +61,8 @@ export class MosCanvasComponent {
       this.holidays = this.mosService.holidays()
       this.pxPerHour = this.zoomService.pxPerHour();
       this.showGridLineHours = this.mosService.showGridLineHours();
-      // this.startDate = mosService.startDate()
-      // this.endDate = mosService.endDate()
+      this.startDate = mosService.startDate()
+      this.endDate = mosService.endDate()
       // this.computeStartEndDates()
       // this.computeTodayX()
       this.recompute();
@@ -79,18 +79,18 @@ export class MosCanvasComponent {
 
   private computeStartEndDatesTodays() {
     // Calculate the minimum and maximum dates from the resources
-    const { minDate, maxDate } = this.utilityService.getMinMaxDates(this.resources);
+    // const { minDate, maxDate } = this.utilityService.getMinMaxDates(this.resources);
 
-    // check if minDate and Maxdate is valid
-    // if (!this.utilityService.isValidDate(minDate) || this.utilityService.isValidDate(maxDate)) {
-    //   return;
-    // }
+    // // check if minDate and Maxdate is valid
+    // // if (!this.utilityService.isValidDate(minDate) || this.utilityService.isValidDate(maxDate)) {
+    // //   return;
+    // // }
 
-    this.startDate = minDate;
-    this.endDate = maxDate;
+    // this.startDate = minDate;
+    // this.endDate = maxDate;
 
-    this.mosService.startDate.set(minDate)
-    this.mosService.endDate.set(maxDate)
+    // this.mosService.startDate.set(minDate)
+    // this.mosService.endDate.set(maxDate)
 
     const t = new Date();
     if (t < this.startDate || t > this.endDate) {

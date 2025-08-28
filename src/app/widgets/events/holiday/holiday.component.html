@@ -1,8 +1,19 @@
-<svg>
+<!-- <svg>
   <rect class="holiday-rect" [attr.x]="holiday.x" [attr.y]="holiday.y + 6" [attr.width]="holiday.w"
     [attr.height]="rowHeight - 12" [attr.fill]="holiday.backgroundColor || '#fde68a'" rx="5" ry="5"></rect>
   <text class="holiday-label" [attr.fill]="holiday.textColor" [attr.x]="holiday.x + (holiday.w/2)"
     [attr.y]="holiday.y + rowHeight/2 + 4" text-anchor="middle">
+    {{ holiday.holidayName }}
+  </text>
+</svg> -->
+
+<svg>
+  <!-- <rect class="holiday-rect" [attr.x]="holiday.x" [attr.y]="holiday.y + 6" [attr.width]="holiday.w"
+    [attr.height]="rowHeight - 12" [attr.fill]="holiday.backgroundColor || '#fde68a'" [attr.opacity]="0.25" rx="5"
+    ry="5"></rect> -->
+  <!-- [attr.fill]="holiday.textColor" -->
+  <text class="holiday-label" [attr.fill]="'#FF0000'" [attr.x]="holiday.x + (holiday.w/2)"
+    [attr.y]="holiday.y + rowHeight/2 + 4" [attr.opacity]="0.8" text-anchor="middle">
     {{ holiday.holidayName }}
   </text>
 </svg>

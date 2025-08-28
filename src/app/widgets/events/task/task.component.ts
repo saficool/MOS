@@ -41,6 +41,5 @@ export class TaskComponent {
 
   ngOnChanges() {
     // console.log(this.task)
-    console.log(this.pxPerHour)
   }
 }

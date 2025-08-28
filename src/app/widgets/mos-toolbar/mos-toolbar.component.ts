@@ -52,6 +52,7 @@ export class MosToolbarComponent {
         let _startDate = this.mosService.startDate().toISOString()
         let _endDate = this.mosService.endDate().toISOString()
 
+        console.log(_startDate)
         console.log(_endDate)
 
         this.startDate.setValue(new Date(_startDate))
@@ -218,11 +219,14 @@ export class MosToolbarComponent {
   onStartDateChange(event: any) {
     const dateString = event.target.value;
     this.startDate.setValue(dateString ? new Date(dateString + 'T00:00:00.000Z') : null);
+    this.mosService.startDate.set(this.startDate.value!)
+    console.log()
   }
 
   onEndDateChange(event: any) {
     const dateString = event.target.value;
     this.endDate.setValue(dateString ? new Date(dateString + 'T23:59:59.000Z') : null);
+    this.mosService.endDate.set(this.endDate.value!)
   }
 
 }
