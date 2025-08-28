@@ -1,8 +1,7 @@
-import { Component, effect, EventEmitter, Input, Output } from '@angular/core';
-import { Task } from '../../../interfaces/task.interface';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { TaskLayoutItem } from '../../../interfaces/task-layout-item.interface';
 
-
+declare var bootstrap: any;
 
 @Component({
   selector: 'g[app-task]',
@@ -36,6 +35,47 @@ export class TaskComponent {
 
   onDelete() {
     this.deleteTask.emit(this.task);
+  }
+
+  ngAfterViewInit() {
+    setTimeout(() => {
+      const tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+      tooltipTriggerList.map(tooltipTriggerEl => {
+        return new bootstrap.Tooltip(tooltipTriggerEl, {
+          html: true,
+          container: 'body',
+          trigger: 'hover focus'
+        });
+      });
+    }, 100);
+  }
+
+  getTooltipContent(): string {
+    return `
+      <div style="text-align: left;">
+        <strong>${this.task.name}</strong><br>
+        <span class="badge bg-${this.getStatusColor()}">${this.task.status}</span><br>
+        <small>Progress: ${this.task.progress}%</small><br>
+        <small>Start: ${this.formatDate(this.task.startDate)}</small><br>
+        <small>End: ${this.formatDate(this.task.endDate)}</small>
+      </div>
+    `;
+  }
+
+  private getStatusColor(): string {
+    const colors = {
+      'InProgress': 'primary',
+      'Completed': 'success',
+      'Planned': 'secondary',
+      'Locked': 'warning',
+      'Cancelled': 'danger',
+      'Failed': 'danger'
+    };
+    return colors[this.task.status as keyof typeof colors] || 'secondary';
+  }
+
+  private formatDate(date: any): string {
+    return date ? new Date(date).toLocaleDateString() : 'N/A';
   }
 
 
